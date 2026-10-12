@@ -53,7 +53,7 @@ export const profile = {
   },
   sidebarTagline: ["Better systems.", "A safer community."],
   socials: [
-    { label: "GitHub", href: "https://github.com/", icon: "github" },
+    { label: "GitHub", href: "https://github.com/KurtSalut29", icon: "github" },
     { label: "LinkedIn", href: "https://linkedin.com/", icon: "linkedin" },
     { label: "X", href: "https://x.com/", icon: "x" },
     { label: "Email", href: "mailto:kurtsalut18@gmail.com", icon: "email" },
