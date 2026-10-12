@@ -4,7 +4,7 @@ import { profile } from "./profile";
  * How search engines and link previews describe the site.
  * SITE_URL is the live domain; set NEXT_PUBLIC_SITE_URL on the host if it differs.
  */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://kurtmichaelsalut.com").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://kurtmichaelsalut.vercel.app").replace(/\/$/, "");
 
 export const seo = {
   title: `${profile.fullName} — Software Developer`,
