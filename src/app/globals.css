@@ -1,0 +1,929 @@
+@import "tailwindcss";
+
+/* Theme is driven by next-themes setting data-theme on <html>. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ------------------------------------------------------------------
+   Design tokens
+   Palette: cool neutrals, one deep navy accent.
+   Green (--live) is reserved for live state only (availability).
+   Radius rule: cards 20px, controls 12px, chips are full pills.
+------------------------------------------------------------------- */
+:root {
+  --bg: #f2f4f7;
+  --bg-sunken: #e8ecf1;
+  --surface: #fbfcfd;
+  --surface-2: #f5f7fa;
+  --line: #e0e5ec;
+  --line-strong: #c9d1dc;
+  --ink: #0d1626;
+  --ink-2: #364254;
+  --ink-3: #5b6779;
+  --accent: #1f3d8f;
+  --accent-hover: #18317a;
+  --accent-ink: #f7f9fc;
+  --accent-soft: #e2e8f6;
+  --live: #16a34a;
+  --heart: #e11d48;
+  --live-ink: #15803d;
+  --shadow-tint: 216 40% 30%;
+  --card-shadow: 0 1px 2px hsl(var(--shadow-tint) / 0.05), 0 8px 24px -12px hsl(var(--shadow-tint) / 0.12);
+  --card-shadow-lift: 0 2px 4px hsl(var(--shadow-tint) / 0.06), 0 24px 48px -20px hsl(var(--shadow-tint) / 0.25);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --sidebar-w: 284px;
+  /* Sidebar nav: the active item is a raised pill, hover a faint wash of ink. */
+  --pill-from: #ffffff;
+  --pill-to: #eef1f6;
+  --pill-ring: #dbe1ea;
+  --pill-highlight: rgb(255 255 255 / 0.9);
+  --nav-hover: color-mix(in oklab, var(--ink) 4.5%, transparent);
+  --page-bg: #f2f4f7;
+  --portrait-bg: var(--accent);
+  --portrait-ink: #f7f9fc;
+  /* Matte grain: speckles of black and white, so one tile reads on both themes. */
+  --grain: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='2.6 0 0 0 -.8 2.6 0 0 0 -.8 2.6 0 0 0 -.8 0 0 0 0 1'/></filter><rect width='100%' height='100%' filter='url(%23g)' opacity='.07'/></svg>");
+  --grain-soft: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='2.6 0 0 0 -.8 2.6 0 0 0 -.8 2.6 0 0 0 -.8 0 0 0 0 1'/></filter><rect width='100%' height='100%' filter='url(%23g)' opacity='.05'/></svg>");
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #0a0e17;
+  --bg-sunken: #070a11;
+  --surface: #111827;
+  --surface-2: #151d2d;
+  --line: #1e283a;
+  --line-strong: #2b3850;
+  --ink: #e7ecf4;
+  --ink-2: #b3bdcc;
+  --ink-3: #8691a4;
+  --accent: #8fa9ff;
+  --accent-hover: #a9bdff;
+  --accent-ink: #0a0e17;
+  --accent-soft: #19233f;
+  --live: #4ade80;
+  --heart: #fb7185;
+  --live-ink: #6ee79a;
+  --pill-from: #1c2638;
+  --pill-to: #161e2f;
+  --pill-ring: #2a3650;
+  --pill-highlight: rgb(255 255 255 / 0.05);
+  --page-bg: #0a0e17;
+  --portrait-bg: #1c2b5f;
+  --portrait-ink: #e7ecf4;
+  --grain: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='2.6 0 0 0 -.8 2.6 0 0 0 -.8 2.6 0 0 0 -.8 0 0 0 0 1'/></filter><rect width='100%' height='100%' filter='url(%23g)' opacity='.06'/></svg>");
+  --grain-soft: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/><feColorMatrix values='2.6 0 0 0 -.8 2.6 0 0 0 -.8 2.6 0 0 0 -.8 0 0 0 0 1'/></filter><rect width='100%' height='100%' filter='url(%23g)' opacity='.045'/></svg>");
+  --shadow-tint: 222 60% 2%;
+  --card-shadow: 0 1px 2px hsl(var(--shadow-tint) / 0.4), 0 8px 24px -12px hsl(var(--shadow-tint) / 0.6);
+  --card-shadow-lift: 0 2px 4px hsl(var(--shadow-tint) / 0.4), 0 24px 48px -20px hsl(var(--shadow-tint) / 0.8);
+  color-scheme: dark;
+}
+
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-sunken: var(--bg-sunken);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-live: var(--live);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-bricolage), var(--font-geist-sans), ui-sans-serif, sans-serif;
+  --font-hand: var(--font-caveat), cursive;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+}
+
+/* Non-inline so these are emitted as real CSS variables too. */
+@theme {
+  --radius-card: 20px;
+  --radius-control: 12px;
+}
+
+/* ------------------------------------------------------------------
+   Base
+------------------------------------------------------------------- */
+html {
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  transition: background-color 300ms ease, color 300ms ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-bricolage), var(--font-geist-sans), sans-serif;
+  text-wrap: balance;
+  letter-spacing: -0.025em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* Cursor: a crisp arrow in the site's ink, readable on light and dark pages alike.
+   Links and controls keep the pointing hand; text fields keep the I-beam. */
+html {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 2.5v17.2l4.6-4.3 2.9 6.4 2.7-1.2-2.8-6.3h6.3z' fill='%23ffffff' stroke='%230d1626' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E")
+      4 2.5,
+    auto;
+}
+a[href],
+button:not(:disabled),
+[role="button"],
+summary,
+select,
+label[for] {
+  cursor: pointer;
+}
+input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"]),
+textarea,
+[contenteditable="true"] {
+  cursor: text;
+}
+
+/* Scrollbars: thin and tinted with the ink everywhere. On desktop the page bar
+   is replaced by the section rail (ScrollRail.tsx), which sets .has-rail. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--ink) 22%, transparent) transparent;
+}
+html.has-rail {
+  scrollbar-width: none;
+}
+html.has-rail::-webkit-scrollbar {
+  display: none;
+}
+
+/* Sections jump under nothing (no top bar on desktop), but leave room on mobile. */
+section[id] {
+  scroll-margin-top: 88px;
+}
+@media (min-width: 1024px) {
+  section[id] {
+    scroll-margin-top: 24px;
+  }
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------
+   Texture: a matte grain on the page and on every raised surface,
+   so backgrounds and cards read like printed stock instead of flat fills.
+   It tiles with the element and never covers content or screenshots.
+------------------------------------------------------------------- */
+body {
+  background-image: var(--grain-soft);
+}
+.card,
+.bg-surface,
+.bg-surface-2 {
+  background-image: var(--grain);
+}
+
+/* ------------------------------------------------------------------
+   Components
+------------------------------------------------------------------- */
+@layer components {
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    box-shadow: var(--card-shadow);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 46px;
+    padding: 0 1.25rem;
+    border-radius: var(--radius-control);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    white-space: nowrap;
+    user-select: none;
+    transition:
+      transform 160ms var(--ease-out),
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      box-shadow 200ms ease;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.14),
+      0 6px 16px -8px color-mix(in oklab, var(--accent) 70%, transparent);
+  }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--line-strong);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+    .btn-secondary:hover {
+      border-color: var(--ink-3);
+    }
+  }
+  .btn .btn-arrow {
+    transition: transform 200ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .btn:hover .btn-arrow {
+      transform: translateX(3px);
+    }
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    height: 28px;
+    padding: 0 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--ink-2);
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+
+  .label-mono {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    color: var(--ink-3);
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 300ms var(--ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .link-underline:hover {
+      background-size: 100% 1px;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------
+   Page-load entrance (CSS so it runs off the main thread during hydration)
+------------------------------------------------------------------- */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+.enter {
+  animation: rise-in 700ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.status-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--live);
+  flex: none;
+}
+.status-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--live);
+  animation: pulse-ring 2.4s var(--ease-out) infinite;
+}
+
+.nav-pill {
+  background: var(--grain), linear-gradient(var(--pill-from), var(--pill-to));
+  box-shadow:
+    inset 0 0 0 1px var(--pill-ring),
+    inset 0 1px 0 var(--pill-highlight),
+    0 1px 2px hsl(var(--shadow-tint) / 0.08),
+    0 3px 8px -3px hsl(var(--shadow-tint) / 0.14);
+}
+
+/* ------------------------------------------------------------------
+   Section rail: the page scrollbar on desktop. Ticks mark sections;
+   the thumb rides over them. Quiet at rest, full strength while in use.
+------------------------------------------------------------------- */
+/* At rest the ticks step back; they come up while the page moves or the rail is in use. */
+.scroll-rail:not(:hover, [data-scrolling], [data-dragging]) .rail-tick-mark:not(.is-on) {
+  opacity: 0.55;
+}
+.lenis-stopped .scroll-rail {
+  visibility: hidden;
+}
+.rail-tick-mark {
+  width: 8px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--ink) 26%, transparent);
+  transition:
+    width 220ms var(--ease-out),
+    background-color 200ms ease,
+    opacity 300ms ease;
+}
+.rail-tick-mark.is-on {
+  width: 12px;
+  background: var(--accent);
+}
+.rail-tick:hover .rail-tick-mark {
+  width: 14px;
+  background: var(--ink-2);
+}
+.rail-thumb {
+  cursor: grab;
+}
+.scroll-rail[data-dragging] .rail-thumb {
+  cursor: grabbing;
+}
+.rail-thumb-bar {
+  width: 4px;
+  height: 100%;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--ink) 30%, var(--bg));
+  transition:
+    width 220ms var(--ease-out),
+    background-color 200ms ease;
+}
+.scroll-rail:hover .rail-thumb-bar {
+  width: 6px;
+  background: color-mix(in oklab, var(--ink) 48%, var(--bg));
+}
+.rail-thumb:hover .rail-thumb-bar,
+.scroll-rail[data-dragging] .rail-thumb-bar {
+  width: 6px;
+  background: var(--accent);
+}
+.rail-chip {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 2px);
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--grain), var(--surface);
+  box-shadow: var(--card-shadow);
+  color: var(--ink);
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  translate: 4px -50%;
+  transition:
+    opacity 180ms ease,
+    translate 220ms var(--ease-out);
+}
+.scroll-rail:hover .rail-thumb-label,
+.scroll-rail[data-dragging] .rail-thumb-label,
+.rail-tick:hover .rail-tick-label {
+  opacity: 1;
+  translate: 0 -50%;
+}
+.scroll-rail:has(.rail-tick:hover) .rail-thumb-label {
+  opacity: 0;
+}
+
+/* Gallery photo stack: cards glide into their new place in the fan */
+.photo-card {
+  transition:
+    transform 750ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 400ms ease,
+    box-shadow 750ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-card {
+    transition: opacity 200ms ease;
+  }
+}
+
+/* Resume sheet: one plain face throughout, like a printed resume */
+.resume-sheet h1,
+.resume-sheet h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: normal;
+}
+
+/* Hero portrait: a free-standing cutout. A blurred navy glow sits behind it,
+   and its lower part fades out so the figure settles into the page. */
+.hero-glow {
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--accent) 50%, transparent), transparent);
+  filter: blur(28px);
+  opacity: 0.9;
+}
+[data-theme="dark"] .hero-glow {
+  opacity: 0.55;
+}
+.hero-cutout {
+  -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
+}
+.hero-cutout img {
+  transition: transform 600ms var(--ease-out);
+  transform-origin: 50% 100%;
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero-portrait:hover .hero-cutout img {
+    transform: scale(1.025);
+  }
+}
+
+/* Hearts: the button's heart pulses on each press, and small hearts float up and drift away */
+@keyframes heart-pulse {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.heart-pulse {
+  animation: heart-pulse 360ms var(--ease-out);
+}
+@keyframes heart-float {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(calc(var(--s) * 0.6)) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), -64px) scale(var(--s)) rotate(var(--rot));
+  }
+}
+.heart-float {
+  position: absolute;
+  left: 22px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  background: var(--heart);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.1 5.3 3 1.7-1.9 3.2-3 5.3-3 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.1 0 3.6 1.1 5.3 3 1.7-1.9 3.2-3 5.3-3 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z'/%3E%3C/svg%3E") center / contain no-repeat;
+  animation: heart-float 900ms var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .heart-pulse {
+    animation: none;
+  }
+}
+
+/* Sidebar nav: a thin scrollbar, and the list fades at whichever edge has more links hidden.
+   The fades are scroll-driven where supported; elsewhere the list just scrolls. */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--ink) 20%, transparent) transparent;
+  scrollbar-gutter: stable;
+}
+@supports (animation-timeline: scroll()) {
+  @keyframes sidebar-fade {
+    from {
+      --fade-top: 0px;
+      --fade-bottom: 28px;
+    }
+    to {
+      --fade-top: 28px;
+      --fade-bottom: 0px;
+    }
+  }
+  @property --fade-top {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+  }
+  @property --fade-bottom {
+    syntax: "<length>";
+    inherits: false;
+    initial-value: 0px;
+  }
+  .sidebar-scroll {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 var(--fade-top), #000 calc(100% - var(--fade-bottom)), transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 var(--fade-top), #000 calc(100% - var(--fade-bottom)), transparent);
+    animation: sidebar-fade linear both;
+    animation-timeline: scroll(self);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Spotlight: a soft light that follows the cursor along a card's border.
+   --mx/--my are set on the card itself (no parent var cascades).
+------------------------------------------------------------------- */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--accent) 70%, transparent),
+    transparent 60%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--accent) 7%, transparent),
+    transparent 55%
+  );
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .spotlight:hover::before,
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Marquee: the tools band and the certificates. Linear: it is constant motion.
+------------------------------------------------------------------- */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 48s) linear infinite;
+}
+@media (hover: hover) and (pointer: fine) {
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+/* Keyboard users get the same pause while a card inside has focus. */
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+.marquee {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* ------------------------------------------------------------------
+   Click burst: short rays spring out from wherever the mouse clicks.
+   Spawned by <ClickBurst />; each ray is rotated by --a, then pushed outward.
+------------------------------------------------------------------- */
+@keyframes click-burst {
+  0% {
+    transform: rotate(var(--a)) translateY(4px) scaleY(1);
+    opacity: 1;
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--a)) translateY(16px) scaleY(0.3);
+    opacity: 0;
+  }
+}
+.click-burst {
+  position: fixed;
+  z-index: 90;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.click-burst > i {
+  position: absolute;
+  top: 0;
+  left: -1px;
+  width: 2px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform-origin: 50% 0;
+  animation: click-burst 420ms var(--ease-out) forwards;
+}
+
+/* ------------------------------------------------------------------
+   Hero headline: words rise in one after another (CSS, off main thread)
+------------------------------------------------------------------- */
+.word {
+  display: inline-block;
+  animation: rise-in 800ms var(--ease-out) both;
+  animation-delay: calc(var(--w, 0) * 90ms + 150ms);
+}
+
+/* ------------------------------------------------------------------
+   Intro: the KM monogram draws itself (a 3 s clip, complete
+   at about 1.8 s), holds, then the curtain lifts.
+   Plays on every full page load; an inline script sets data-intro="skip" for reduced motion.
+------------------------------------------------------------------- */
+@keyframes intro-lift {
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+@keyframes intro-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--bg);
+  clip-path: inset(0 0 0 0);
+  animation: intro-lift 700ms var(--ease-in-out) 2300ms both;
+  pointer-events: none;
+}
+.intro-video {
+  width: min(640px, 92vw);
+  aspect-ratio: 16 / 9;
+  /* The clip's white background disappears into the page color */
+  mix-blend-mode: multiply;
+  animation: intro-fade 400ms var(--ease-out) both;
+}
+[data-theme="dark"] .intro-video {
+  /* Black strokes turn white, white background turns black (then screened away); the hue turn keeps the blue blue */
+  filter: invert(1) hue-rotate(180deg);
+  mix-blend-mode: screen;
+}
+html[data-intro="skip"] .intro {
+  display: none;
+}
+
+
+/* Tooltip shown on hover/focus of .tip-host. Origin: bottom, where it attaches. */
+.tip {
+  opacity: 0;
+  transform: translateY(4px) scale(0.97);
+  transform-origin: 16px 100%;
+  transition:
+    opacity 150ms ease,
+    transform 180ms var(--ease-out);
+  pointer-events: none;
+}
+.tip-host:focus-visible .tip {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tip-host:hover .tip {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ------------------------------------------------------------------
+   View transitions (React <ViewTransition>)
+------------------------------------------------------------------- */
+::view-transition-group(.morph) {
+  animation-duration: 450ms;
+  animation-timing-function: var(--ease-in-out);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+@keyframes via-blur {
+  30% {
+    filter: blur(3px);
+  }
+}
+
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-slide {
+  from {
+    transform: translateX(var(--slide-offset));
+  }
+}
+::view-transition-old(.nav-forward) {
+  --slide-offset: -48px;
+  animation:
+    150ms ease-in both vt-fade reverse,
+    350ms var(--ease-in-out) both vt-slide reverse;
+}
+::view-transition-new(.nav-forward) {
+  --slide-offset: 48px;
+  animation:
+    220ms ease-out 120ms both vt-fade,
+    350ms var(--ease-in-out) both vt-slide;
+}
+::view-transition-old(.nav-back) {
+  --slide-offset: 48px;
+  animation:
+    150ms ease-in both vt-fade reverse,
+    350ms var(--ease-in-out) both vt-slide reverse;
+}
+::view-transition-new(.nav-back) {
+  --slide-offset: -48px;
+  animation:
+    220ms ease-out 120ms both vt-fade,
+    350ms var(--ease-in-out) both vt-slide;
+}
+
+/* Theme switch: no crossfade; themeDissolve.ts steps a dither mask over the new snapshot instead. */
+.theme-dissolve::view-transition-old(root),
+.theme-dissolve::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* ------------------------------------------------------------------
+   Reduced motion: keep opacity, drop movement
+------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .enter {
+    animation: vt-fade 400ms ease both;
+    animation-delay: 0ms;
+  }
+  .status-dot::after,
+  .marquee-track {
+    animation: none;
+  }
+  .marquee-track {
+    width: auto;
+    justify-content: center;
+  }
+  .marquee-track > ul:first-child {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    min-width: 0;
+    justify-content: center;
+    row-gap: 1rem;
+  }
+  .marquee-dup {
+    display: none !important;
+  }
+  .marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .word {
+    animation: vt-fade 400ms ease both;
+  }
+  .intro {
+    display: none;
+  }
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+  .btn:active {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Print (résumé page)
+------------------------------------------------------------------- */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  .intro {
+    display: none;
+  }
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+  /* Paper is always light, whatever the screen theme. */
+  :root,
+  [data-theme="dark"] {
+    --bg: #ffffff;
+    --bg-sunken: #ffffff;
+    --surface: #ffffff;
+    --surface-2: #ffffff;
+    --line: #d9dee6;
+    --line-strong: #c3cad5;
+    --ink: #0d1626;
+    --ink-2: #2e3a4c;
+    --ink-3: #566275;
+    --accent: #1f3d8f;
+    color-scheme: light;
+  }
+  body {
+    font-size: 11pt;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  .print-shell,
+  #main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* Plain white paper: no grain texture, so the PDF stays light and ATS-readable */
+  body,
+  .resume-sheet {
+    background-image: none !important;
+  }
+  @page {
+    margin: 12mm 14mm;
+  }
+}
