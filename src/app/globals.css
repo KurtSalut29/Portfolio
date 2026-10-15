@@ -503,8 +503,8 @@ body {
   opacity: 0.55;
 }
 .hero-cutout {
-  -webkit-mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
-  mask-image: linear-gradient(to bottom, #000 74%, transparent 99%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 99%);
+  mask-image: linear-gradient(to bottom, #000 76%, transparent 99%);
 }
 .hero-cutout img {
   transition: transform 600ms var(--ease-out);

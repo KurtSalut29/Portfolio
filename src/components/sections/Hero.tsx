@@ -15,7 +15,8 @@ function Portrait() {
     <figure className="hero-portrait enter relative mx-auto w-[240px] sm:w-full" style={step(1)}>
       <div className="relative aspect-[4/5]">
         <div aria-hidden="true" className="hero-glow absolute inset-x-[6%] top-[12%] bottom-[18%] rounded-full" />
-        <div className="hero-cutout absolute inset-0">
+        {/* The box reaches above the frame: the image has headroom so the hair is never cut when it scales on hover */}
+        <div className="hero-cutout absolute inset-x-0 -top-[8.5%] bottom-0">
           <Image
             src="/profile/portrait-cutout.webp"
             alt={`Portrait of ${profile.fullName}`}
