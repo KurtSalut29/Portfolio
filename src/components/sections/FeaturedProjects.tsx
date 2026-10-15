@@ -13,7 +13,6 @@ import { Container, SectionHeading } from "@/components/ui/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { DeviceStage } from "@/components/mockups/DeviceStage";
 import { PLATFORM } from "@/components/mockups/platform";
-import { StackList } from "@/components/icons/StackList";
 import { ScreenshotViewer } from "@/components/mockups/ScreenshotViewer";
 
 const featured = projects.filter((p) => p.featured);
@@ -84,7 +83,6 @@ function Slide({
           </li>
         ))}
       </ul>
-      {p.stack.length > 0 && <StackList stack={p.stack} className="mt-4" />}
 
       <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
         <Link
