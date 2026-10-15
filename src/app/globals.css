@@ -632,6 +632,24 @@ html[data-sidebar="collapsed"] .sidebar .sb-rail {
   pointer-events: auto;
   transition: opacity 200ms ease 160ms;
 }
+/* Rows keep their icon at the same spot; in the rail the padding centers it exactly (percent = the row's width). */
+.sidebar nav a {
+  transition:
+    padding-left 420ms cubic-bezier(0.32, 0.72, 0, 1),
+    color 200ms ease,
+    background-color 200ms ease;
+}
+html[data-sidebar="collapsed"] .sidebar nav a {
+  padding-left: calc((100% - 17px) / 2);
+}
+/* The rail has no room for a scrollbar: the gutter reserved for it would push every row off center. */
+html[data-sidebar="collapsed"] .sidebar .sidebar-scroll {
+  scrollbar-gutter: auto;
+  scrollbar-width: none;
+}
+html[data-sidebar="collapsed"] .sidebar .sidebar-scroll::-webkit-scrollbar {
+  display: none;
+}
 /* Group labels shrink to a short divider in the rail, and the gaps between groups close up. */
 .sidebar .sb-nav {
   transition: gap 420ms cubic-bezier(0.32, 0.72, 0, 1);

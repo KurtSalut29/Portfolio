@@ -53,7 +53,7 @@ export default function ResumePage() {
           <Container width="document" className="flex h-16 items-center justify-between gap-4">
             <SectionLink
               to="home"
-              className="group inline-flex items-center gap-2 text-sm text-[#0d1626]-2 transition-colors hover:text-[#0d1626]"
+              className="group inline-flex items-center gap-2 text-sm text-ink-2 transition-colors hover:text-ink"
             >
               <ArrowLeftIcon size={16} aria-hidden="true" className="transition-transform group-hover:-translate-x-0.5" />
               <span className="hidden sm:inline">Back to portfolio</span>
