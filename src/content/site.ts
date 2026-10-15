@@ -19,27 +19,34 @@ export const nav = [
 
 export type NavId = (typeof nav)[number]["id"];
 
-/** "What I bring" - the reasons to hire you, each backed by proof. */
+/**
+ * "What I bring" - the reasons to work with you. Each one points at proof:
+ * projects where it shows (slugs from projects.ts) or a link to the code itself.
+ */
 export const values = [
   {
-    title: "Clean code",
-    body: "Readable, tested, and documented, so the next developer can pick it up without a walkthrough.",
+    title: "Code that's easy to hand over",
+    body: "Clear names, small focused parts, and notes where they help, so the next developer can pick it up without a walkthrough.",
     icon: "code",
+    proof: { label: "See my code on GitHub", href: "https://github.com/KurtSalut29" },
   },
   {
-    title: "Real-world impact",
-    body: "I build for actual users in my province, not just for a demo.",
+    title: "Built for real people",
+    body: "I build for the people who will use it every day, like a store's staff tracking deliveries or residents reporting an emergency, not just for a demo.",
     icon: "globe",
+    proof: { projects: ["rm-hardware", "ziren"] },
   },
   {
-    title: "Fast learner",
-    body: "New stack? I ship a working prototype first, then go deep.",
+    title: "Quick to learn new tools",
+    body: "PHP, Django, Flutter, Next.js, even training my own model. I learn what the project needs, get a working version out first, then improve it.",
     icon: "lightning",
+    proof: { projects: ["rockalyzer", "ace-sched", "hms"] },
   },
   {
-    title: "Team player",
-    body: "Comfortable leading a team or slotting into an existing one.",
+    title: "Can lead or support",
+    body: "I have led a team of four as lead developer and built alongside a team of three. I keep updates clear, so no one is left guessing.",
     icon: "users",
+    proof: { projects: ["ziren", "tingi"] },
   },
 ] as const;
 
