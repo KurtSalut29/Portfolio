@@ -1,132 +1,81 @@
-import {
-  BookOpenTextIcon,
-  CrosshairIcon,
-  HammerIcon,
-  MapPinIcon,
-  SparkleIcon,
-} from "@phosphor-icons/react/dist/ssr";
 import { profile } from "@/content/profile";
 import { projects } from "@/content/projects";
+import { certificates } from "@/content/certificates";
 import { interests, skillGroups } from "@/content/site";
 import { Container, SectionHeading } from "@/components/ui/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { CountUp } from "@/components/motion/CountUp";
-import { Spotlight } from "@/components/motion/Spotlight";
-import { certificates } from "@/content/certificates";
 
-const toolCount = skillGroups.reduce((n, g) => n + g.items.length, 0);
+const toolCount = new Set(skillGroups.flatMap((g) => g.items.map((i) => i.name))).size;
 
-/** Real counts derived from your content, so they stay honest as you edit. */
-const facts = [
-  { value: String(projects.length), label: "Projects shipped or in progress" },
-  { value: `${toolCount}`, label: "Languages, frameworks, and tools" },
-  { value: String(certificates.length), label: "Certifications and awards" },
+/** Real counts from the content files, so they stay honest as projects and certificates are added. */
+const stats = [
+  { value: String(projects.length), label: "Projects built" },
+  { value: String(toolCount), label: "Languages and tools" },
+  { value: String(certificates.length), label: "Certificates earned" },
 ];
 
-export function About() {
-  const info = [
-    { icon: MapPinIcon, label: "Location", value: profile.location },
-    { icon: SparkleIcon, label: "Status", value: profile.availability.label },
-    { icon: CrosshairIcon, label: "Focus", value: profile.focus.join(", ") },
-  ];
-  const now = [
-    { icon: HammerIcon, label: "Focused on", value: profile.now.focus },
-    { icon: BookOpenTextIcon, label: "Learning", value: profile.now.learning },
-  ];
+const facts = [
+  { label: "Based in", value: profile.facts.basedIn },
+  { label: "I build", value: profile.facts.builds },
+  { label: "Currently learning", value: profile.facts.learning },
+  { label: "Open to", value: profile.facts.openTo },
+];
 
+/** Who Kurt is in two short paragraphs, then the numbers and a scannable fact sheet. */
+export function About() {
+  const [lead, ...rest] = profile.about;
   return (
     <section id="about" className="py-20 lg:py-28">
-      <Container className="grid gap-12">
-        <div>
-          <SectionHeading title="A little about me." />
-          <div className="mt-8 max-w-[62ch] space-y-5 text-[1.0625rem] leading-relaxed text-ink-2 sm:text-lg">
-            {profile.about.map((p, i) => (
-              <Reveal key={i} delay={0.05 * i}>
-                <p>{p}</p>
-              </Reveal>
+      <Container>
+        <SectionHeading title="About Me" />
+
+        <Reveal>
+          <p className="mt-8 text-[1.25rem] leading-[1.6] font-medium tracking-[-0.01em] text-ink sm:text-[1.375rem]">{lead}</p>
+        </Reveal>
+        {rest.map((p, i) => (
+          <Reveal key={i} delay={0.05 * (i + 1)}>
+            <p className="mt-5 text-[1.0625rem] leading-[1.75] text-ink-2">{p}</p>
+          </Reveal>
+        ))}
+
+        {/* The numbers */}
+        <Reveal delay={0.1}>
+          <dl className="card mt-12 grid grid-cols-3 divide-x divide-line">
+            {stats.map((s) => (
+              <div key={s.label} className="px-4 py-5 text-center sm:px-6 sm:py-6">
+                <dd className="font-display text-[2.25rem] leading-none font-semibold tracking-[-0.04em] text-ink sm:text-5xl">
+                  <CountUp value={s.value} />
+                </dd>
+                <dt className="mt-2.5 text-[12.5px] leading-snug text-ink-3 sm:text-[13px]">{s.label}</dt>
+              </div>
             ))}
-          </div>
+          </dl>
+        </Reveal>
 
-          <Reveal delay={0.1}>
-            <dl className="mt-12 grid grid-cols-3 gap-4 border-t border-line pt-8">
-              {facts.map((f) => (
-                <div key={f.label}>
-                  <dt className="sr-only">{f.label}</dt>
-                  <dd className="font-display text-5xl font-semibold tracking-[-0.04em] text-ink sm:text-6xl">
-                    <CountUp value={f.value} />
-                  </dd>
-                  <dd className="mt-2 max-w-[18ch] text-[13px] leading-snug text-ink-3">{f.label}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-
-          <Reveal delay={0.15} className="mt-10">
-            <p className="text-sm font-medium text-ink">Interests</p>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {interests.map((t) => (
-                <li key={t} className="chip">
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-
-        <div className="grid gap-3 sm:grid-cols-2">
-          <Reveal>
-            <Spotlight className="card h-full p-6">
-              <p className="flex items-center justify-between text-sm font-medium text-ink">
-                Now
-                <span className="flex items-center gap-1.5 text-xs font-normal text-ink-3">
-                  <span className="status-dot" aria-hidden="true" />
-                  Live
-                </span>
-              </p>
-              <ul className="mt-5 space-y-4">
-                {now.map(({ icon: I, label, value }) => (
-                  <li key={label} className="flex gap-3.5">
-                    <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-accent-soft text-accent">
-                      <I size={18} weight="duotone" aria-hidden="true" />
-                    </span>
-                    <div>
-                      <p className="text-xs text-ink-3">{label}</p>
-                      <p className="mt-0.5 text-sm leading-snug text-ink">{value}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </Spotlight>
-          </Reveal>
-
-          <Reveal delay={0.05}>
-            <Spotlight className="card h-full p-6">
-              <p className="text-sm font-medium text-ink">Quick info</p>
-              <ul className="mt-5 space-y-5">
-                {info.map(({ icon: I, label, value }) => (
-                  <li key={label} className="flex gap-3.5">
-                    <span className="grid size-9 shrink-0 place-items-center rounded-[10px] bg-surface-2 text-ink-2">
-                      <I size={18} aria-hidden="true" />
-                    </span>
-                    <div>
-                      <p className="text-xs text-ink-3">{label}</p>
-                      <p className="mt-0.5 text-sm leading-snug text-ink">{value}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </Spotlight>
-          </Reveal>
-
-          <Reveal delay={0.1} className="card relative isolate flex flex-col overflow-hidden p-6 sm:col-span-2">
-            <blockquote className="relative z-10">
-              <p className="font-display text-xl leading-snug font-medium tracking-tight text-ink">
-                &ldquo;{profile.quote.text}&rdquo;
-              </p>
-              <footer className="mt-4 text-sm text-ink-3">{profile.quote.author}</footer>
-            </blockquote>
-          </Reveal>
-        </div>
+        {/* Fact sheet: a label column and an answer column, easy to scan */}
+        <Reveal delay={0.12}>
+          <dl className="mt-10 border-t border-line">
+            {facts.map((f) => (
+              <div key={f.label} className="grid gap-1 border-b border-line py-4 sm:grid-cols-[170px_1fr] sm:gap-6">
+                <dt className="text-[13.5px] text-ink-3">{f.label}</dt>
+                <dd className="text-[15.5px] text-ink">{f.value}</dd>
+              </div>
+            ))}
+            <div className="grid gap-2 border-b border-line py-4 sm:grid-cols-[170px_1fr] sm:gap-6">
+              <dt className="pt-1 text-[13.5px] text-ink-3">Interests</dt>
+              <dd>
+                <ul className="flex flex-wrap gap-1.5">
+                  {interests.map((t) => (
+                    <li key={t} className="chip">
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          </dl>
+        </Reveal>
       </Container>
     </section>
   );

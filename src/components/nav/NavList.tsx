@@ -89,11 +89,11 @@ export function NavList({ layoutGroup, onNavigate }: { layoutGroup: string; onNa
   const onHome = usePathname() === "/";
 
   return (
-    <nav aria-label="Main" className="flex flex-col gap-5 [@media(max-height:760px)]:gap-3">
+    <nav aria-label="Main" className="sb-nav flex flex-col gap-5 [@media(max-height:760px)]:gap-3">
       {blocks.map((block) => (
         <div key={block.items[0].id}>
           {block.label && (
-            <p id={`${layoutGroup}-${block.items[0].id}-label`} className="px-3 pb-1.5 [@media(max-height:760px)]:pb-1 text-[11.5px] font-medium tracking-[0.01em] text-ink-3">
+            <p id={`${layoutGroup}-${block.items[0].id}-label`} className="sb-group px-3 pb-1.5 whitespace-nowrap [@media(max-height:760px)]:pb-1 text-[11.5px] font-medium tracking-[0.01em] text-ink-3">
               {block.label}
             </p>
           )}
@@ -111,8 +111,9 @@ export function NavList({ layoutGroup, onNavigate }: { layoutGroup: string; onNa
                   <NavLink
                     item={item}
                     onNavigate={onNavigate}
+                    data-tip={item.label}
                     aria-current={isActive ? (onHome ? "location" : "page") : undefined}
-                    className={`group/nav relative flex h-10 [@media(max-height:760px)]:h-9 items-center gap-3 rounded-[11px] px-3 text-[14.5px] transition-colors duration-200 ${
+                    className={`group/nav relative flex h-10 overflow-hidden whitespace-nowrap [@media(max-height:760px)]:h-9 items-center gap-3 rounded-[11px] px-3 text-[14.5px] transition-colors duration-200 ${
                       isActive ? "font-medium text-ink" : "text-ink-2 hover:bg-[var(--nav-hover)] hover:text-ink"
                     }`}
                   >
@@ -132,16 +133,16 @@ export function NavList({ layoutGroup, onNavigate }: { layoutGroup: string; onNa
                         isActive ? "text-accent" : "text-ink-3 group-hover/nav:text-ink-2"
                       }`}
                     />
-                    <span className="relative">{item.label}</span>
+                    <span className="sb-fade relative">{item.label}</span>
                     {count !== undefined && (
-                      <span className="relative ml-auto font-mono text-[11.5px] text-ink-3 tabular-nums">
+                      <span className="sb-fade relative ml-auto font-mono text-[11.5px] text-ink-3 tabular-nums">
                         <span className="sr-only">(</span>
                         {String(count).padStart(2, "0")}
                         <span className="sr-only"> items)</span>
                       </span>
                     )}
                     {available && (
-                      <span className="relative ml-auto inline-flex h-[22px] items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--live)_14%,transparent)] px-2 text-[11px] font-medium text-[var(--live-ink)]">
+                      <span className="sb-fade relative ml-auto inline-flex h-[22px] shrink-0 items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--live)_14%,transparent)] px-2 text-[11px] font-medium text-[var(--live-ink)]">
                         <span className="status-dot !size-1.5" aria-hidden="true" />
                         {profile.availability.short}
                       </span>

@@ -25,6 +25,11 @@
   --accent-soft: #e2e8f6;
   --live: #16a34a;
   --heart: #e11d48;
+  --gh-0: #e4e8ee;
+  --gh-1: #9be9a8;
+  --gh-2: #40c463;
+  --gh-3: #30a14e;
+  --gh-4: #216e39;
   --live-ink: #15803d;
   --shadow-tint: 216 40% 30%;
   --card-shadow: 0 1px 2px hsl(var(--shadow-tint) / 0.05), 0 8px 24px -12px hsl(var(--shadow-tint) / 0.12);
@@ -66,6 +71,11 @@
   --accent-soft: #19233f;
   --live: #4ade80;
   --heart: #fb7185;
+  --gh-0: #1a2232;
+  --gh-1: #0e4429;
+  --gh-2: #006d32;
+  --gh-3: #26a641;
+  --gh-4: #39d353;
   --live-ink: #6ee79a;
   --pill-from: #1c2638;
   --pill-to: #161e2f;
@@ -589,6 +599,168 @@ body {
 }
 
 /* ------------------------------------------------------------------
+   Collapsible sidebar. --sidebar-w is a registered length so it can
+   animate; the card and the page's left padding both follow it.
+------------------------------------------------------------------- */
+@property --sidebar-w {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 284px;
+}
+html {
+  transition: --sidebar-w 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+html[data-sidebar="collapsed"] {
+  --sidebar-w: 76px;
+}
+/* Labels fade out quickly as the card narrows, and back in once it has mostly opened. */
+.sidebar .sb-fade {
+  transition: opacity 200ms ease 140ms;
+}
+html[data-sidebar="collapsed"] .sidebar .sb-fade {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 110ms ease;
+}
+.sidebar .sb-rail {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 110ms ease;
+}
+html[data-sidebar="collapsed"] .sidebar .sb-rail {
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 200ms ease 160ms;
+}
+/* Group labels shrink to a short divider in the rail, and the gaps between groups close up. */
+.sidebar .sb-nav {
+  transition: gap 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+.sidebar .sb-group {
+  position: relative;
+  height: 22px;
+  overflow: hidden;
+  transition:
+    height 420ms cubic-bezier(0.32, 0.72, 0, 1),
+    color 200ms ease 140ms;
+}
+.sidebar .sb-group::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  width: 16px;
+  height: 1px;
+  background: var(--line-strong);
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+html[data-sidebar="collapsed"] .sidebar .sb-nav {
+  gap: 6px;
+}
+html[data-sidebar="collapsed"] .sidebar .sb-group {
+  height: 13px;
+  color: transparent;
+  transition:
+    height 420ms cubic-bezier(0.32, 0.72, 0, 1),
+    color 110ms ease;
+}
+html[data-sidebar="collapsed"] .sidebar .sb-group::after {
+  opacity: 1;
+  transition: opacity 200ms ease 200ms;
+}
+/* Identity: the avatar slides to the rail's center; the toggle sits on top of it in the rail. */
+.sb-identity {
+  padding-left: 20px;
+  transition: padding-left 420ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+html[data-sidebar="collapsed"] .sb-identity {
+  padding-left: 14px;
+}
+.sb-toggle {
+  right: 14px;
+  transition:
+    opacity 160ms ease,
+    background-color 150ms ease,
+    color 150ms ease;
+}
+html[data-sidebar="collapsed"] .sb-toggle {
+  opacity: 0;
+  background: var(--surface);
+  color: var(--ink-2);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+html[data-sidebar="collapsed"] .sb-identity:hover .sb-toggle,
+html[data-sidebar="collapsed"] .sb-toggle:focus-visible {
+  opacity: 1;
+}
+/* Rail tooltip: to the right of the card */
+.sb-tip {
+  left: calc(var(--sidebar-w) + 8px);
+  opacity: 0;
+  translate: -4px 0;
+  transition:
+    opacity 120ms ease,
+    translate 160ms var(--ease-out);
+}
+.sb-tip.is-on {
+  opacity: 1;
+  translate: 0 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  html,
+  .sb-identity {
+    transition: none;
+  }
+}
+
+/* GitHub contribution graph: 9px squares, 2px apart, weeks as columns */
+.gh-grid,
+.gh-days,
+.gh-months {
+  --c: 9px;
+  --g: 2px;
+}
+.gh-grid {
+  grid-template-rows: repeat(7, var(--c));
+  grid-auto-columns: var(--c);
+  gap: var(--g);
+}
+.gh-days {
+  grid-template-rows: repeat(7, var(--c));
+  gap: var(--g);
+}
+.gh-months {
+  grid-auto-flow: column;
+  grid-auto-columns: var(--c);
+  column-gap: var(--g);
+  height: 14px;
+}
+.gh-cell {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--gh-0);
+  outline: 1px solid color-mix(in oklab, var(--ink) 6%, transparent);
+  outline-offset: -1px;
+}
+.gh-cell[data-level="1"] {
+  background: var(--gh-1);
+}
+.gh-cell[data-level="2"] {
+  background: var(--gh-2);
+}
+.gh-cell[data-level="3"] {
+  background: var(--gh-3);
+}
+.gh-cell[data-level="4"] {
+  background: var(--gh-4);
+}
+.gh-scroll {
+  scrollbar-width: thin;
+}
+
+/* ------------------------------------------------------------------
    Spotlight: a soft light that follows the cursor along a card's border.
    --mx/--my are set on the card itself (no parent var cascades).
 ------------------------------------------------------------------- */
@@ -712,7 +884,7 @@ body {
 /* ------------------------------------------------------------------
    Intro: the KM monogram draws itself (a 3 s clip, complete
    at about 1.8 s), holds, then the curtain lifts.
-   Plays on every full page load; an inline script sets data-intro="skip" for reduced motion.
+   Plays on every full page load and lifts when the clip ends; skipped for reduced motion.
 ------------------------------------------------------------------- */
 @keyframes intro-lift {
   to {
@@ -731,8 +903,18 @@ body {
   z-index: 80;
   background: var(--bg);
   clip-path: inset(0 0 0 0);
-  animation: intro-lift 700ms var(--ease-in-out) 2300ms both;
   pointer-events: none;
+}
+/* The curtain lifts only once the clip has finished (Intro.tsx sets data-intro="done"). */
+html[data-intro="done"] .intro {
+  animation: intro-lift 700ms var(--ease-in-out) both;
+}
+/* While it plays, the page waits underneath: no scrolling, and entrance animations hold their first frame. */
+html[data-intro="playing"] {
+  overflow: hidden;
+}
+html[data-intro="playing"] .enter {
+  animation-play-state: paused;
 }
 .intro-video {
   width: min(640px, 92vw);

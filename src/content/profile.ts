@@ -33,9 +33,16 @@ export const profile = {
     learning: "System design and cloud deployment",
   },
   about: [
-    "I'm a software developer from Biliran, Philippines. I build web and mobile apps end to end, and I'm comfortable on every layer: designing the interface, writing the API, and modeling the data underneath.",
-    "I enjoy the whole life of a product: understanding the problem, designing the flow, writing the code, and watching someone actually use it. That is the part that keeps me up at night, in a good way.",
+    "I'm Kurt, a software developer from Biliran, Philippines. I build web and mobile apps from start to finish: I plan the features, design the screens, write the code, and put the finished product online.",
+    "My projects include an inventory and delivery system for a hardware store, a disaster reporting app built with my team, and a mobile app that identifies rocks using a model I trained myself. What I enjoy most is seeing people use something I made and finding it makes their work easier.",
   ],
+  // Short answers for the About section's fact sheet.
+  facts: {
+    basedIn: "Biliran, Philippines",
+    builds: "Web apps, mobile apps, and the APIs behind them",
+    learning: "System design and cloud deployment",
+    openTo: "Freelance projects and full-time roles",
+  },
   education: {
     school: "Biliran Province State University",
     degree: "BS Computer Science",

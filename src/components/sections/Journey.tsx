@@ -1,6 +1,5 @@
-import { activity } from "@/content/site";
 import { Container, SectionHeading } from "@/components/ui/Section";
-import { Reveal } from "@/components/motion/Reveal";
+import { GitHubActivity } from "./GitHubActivity";
 import { JourneyTrail } from "./JourneyTrail";
 
 const TITLE = "My journey so far."
@@ -16,23 +15,8 @@ export function Journey() {
         </div>
       </Container>
 
-      <Container className="mt-16">
-        <Reveal className="card grid gap-5 p-6">
-          <p className="text-sm font-medium text-ink">Latest activity</p>
-          <ul className="grid gap-5 sm:grid-cols-3">
-            {activity.map((a) => (
-              <li key={a.title + a.date} className="grid grid-cols-[auto_1fr] gap-x-3">
-                <span className="mt-1.5 size-2 rounded-full border-2 border-accent" aria-hidden="true" />
-                <div>
-                  <p className="text-sm font-medium text-ink">
-                    {a.title} <span className="font-normal text-ink-2">{a.body}</span>
-                  </p>
-                  <p className="mt-0.5 font-mono text-[11px] text-ink-3">{a.date}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+      <Container className="mt-14">
+        <GitHubActivity />
       </Container>
     </section>
   );

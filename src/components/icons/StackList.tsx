@@ -1,5 +1,5 @@
 import { BrainCircuit, Code, Database, PenTool, type LucideIcon } from "lucide-react";
-import { lookup } from "./TechIcon";
+import { lookup, readable } from "./TechIcon";
 
 /**
  * What draws each stack item: a Simple Icons slug for real products (shown in their brand color),
@@ -21,14 +21,6 @@ const TECH: Record<string, string | LucideIcon> = {
   AsyncStorage: Database,
   "UI/UX": PenTool,
 };
-
-/** Brand colors this close to black or white vanish on one of the themes; those follow the text color instead. */
-function readable(hex: string) {
-  const n = parseInt(hex, 16);
-  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-  const lum = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-  return lum > 0.12 && lum < 0.92;
-}
 
 function Logo({ name, size }: { name: string; size: number }) {
   const entry = TECH[name];

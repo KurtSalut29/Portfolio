@@ -1,5 +1,5 @@
 /**
- * Section content: navigation, value props, services, skills, journey, activity.
+ * Section content: navigation, value props, services, skills, journey.
  * Sample copy for review. Replace freely.
  */
 
@@ -45,41 +45,46 @@ export const values = [
 
 export const services = [
   {
-    title: "Web applications",
-    body: "Dashboards, booking systems, and internal tools built with React and Next.js. Fast, responsive, and easy to maintain.",
-    forWho: "Small businesses, schools, local organizations",
+    title: "Web apps and systems",
+    body: "Websites and web systems that run your day-to-day work, built with React and Next.js.",
+    points: ["Admin dashboards and reports", "Inventory, sales, and booking tools", "User accounts with roles", "Works on phones and desktops"],
+    examples: ["rm-hardware", "hms", "ace-sched"],
     icon: "browser",
   },
   {
     title: "Mobile apps",
-    body: "Cross-platform Android and iOS apps from a single Flutter codebase, with offline support where it matters.",
-    forWho: "Startups and community projects",
+    body: "Apps for Android and iOS from a single Flutter codebase, so both platforms get the same features.",
+    points: ["Camera, maps, and GPS features", "Smart features like image recognition", "Offline support where it matters", "Ready for app store release"],
+    examples: ["ziren", "rockalyzer", "tingi"],
     icon: "phone",
   },
   {
-    title: "Design to code",
-    body: "Your Figma design turned into a pixel-accurate, accessible, animated interface.",
-    forWho: "Designers and agencies",
-    icon: "pen",
+    title: "Backends and databases",
+    body: "The server side that stores your data safely and keeps your app and website in sync.",
+    points: ["REST APIs with FastAPI or Django", "Databases with PostgreSQL and Supabase", "Secure sign-in and permissions", "Clean data you can export"],
+    examples: ["ziren", "ascrem"],
+    icon: "database",
   },
   {
-    title: "APIs and databases",
-    body: "Backends with FastAPI and Supabase, clean data models, and authentication done right.",
-    forWho: "Teams that need a solid backend",
-    icon: "database",
+    title: "Design to code",
+    body: "Your Figma design or rough sketch turned into a clean, responsive interface that is easy to use.",
+    points: ["Pixel-accurate layouts", "Works on every screen size", "Smooth, purposeful animation", "Accessible to every visitor"],
+    examples: ["family-feud", "uncle-brew-pos"],
+    icon: "pen",
   },
 ] as const;
 
 export const workflow = [
-  { title: "Understand", body: "We talk through the problem, the users, and what success looks like." },
-  { title: "Design", body: "I sketch the flow and interface, and you approve before any code is written." },
-  { title: "Build", body: "Weekly progress you can click through, not just status updates." },
-  { title: "Launch", body: "Deployment, a handover guide, and support after go-live." },
+  { title: "Talk", body: "We go over the problem, who will use the software, and what it needs to do." },
+  { title: "Plan and design", body: "I map out the features and screens. You approve them before any code is written." },
+  { title: "Build", body: "I share progress every week, so you can try the app as it grows and give feedback early." },
+  { title: "Launch and support", body: "I put it online, show you how to use it, and fix any issues that come up after launch." },
 ] as const;
 
 export const skillGroups = [
   {
     title: "Languages",
+    blurb: "What I write code in.",
     icon: "code",
     items: [
       { name: "Java", slug: "openjdk" },
@@ -93,6 +98,7 @@ export const skillGroups = [
   },
   {
     title: "Frameworks",
+    blurb: "What I build apps and websites with.",
     icon: "stack",
     items: [
       { name: "Flutter", slug: "flutter" },
@@ -105,6 +111,7 @@ export const skillGroups = [
   },
   {
     title: "Data",
+    blurb: "Where the data lives.",
     icon: "database",
     items: [
       { name: "PostgreSQL", slug: "postgresql" },
@@ -114,6 +121,7 @@ export const skillGroups = [
   },
   {
     title: "Tools",
+    blurb: "What I use every day to design, ship, and collaborate.",
     icon: "wrench",
     items: [
       { name: "Git", slug: "git" },
@@ -155,12 +163,6 @@ export const journey = [
     body: "A full-time role or long-term client where I can ship production software that people rely on.",
     upcoming: true,
   },
-] as const;
-
-export const activity = [
-  { title: "ZIREN", body: "UI/UX improvements", date: "Sep 28, 2025" },
-  { title: "TINGI", body: "Added marketplace feature", date: "Sep 20, 2025" },
-  { title: "Portfolio", body: "New design and content", date: "Sep 12, 2025" },
 ] as const;
 
 export const inquiryTypes = ["Full-time role", "Freelance project", "Collaboration", "Just saying hi"] as const;

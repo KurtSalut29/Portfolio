@@ -1,90 +1,101 @@
-import { ArrowRightIcon, RocketLaunchIcon } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
+import { ArrowRight, Check } from "lucide-react";
 import { services, workflow } from "@/content/site";
+import { getProject } from "@/content/projects";
 import { Container, SectionHeading } from "@/components/ui/Section";
 import { Icon } from "@/components/icons/Icon";
 import { Reveal } from "@/components/motion/Reveal";
-import { Magnetic } from "@/components/motion/Magnetic";
 import { Spotlight } from "@/components/motion/Spotlight";
 import { SectionLink } from "@/components/nav/SectionLink";
 
-/** Services, then the working process. Follows the site theme like every other section. */
+/** What Kurt offers, each backed by projects he has already built, then the four-step working process. */
 export function Services() {
   return (
-    <section id="services" className="relative isolate">
-      <div className="relative">
-        <Container className="py-20 lg:py-28">
-          <div className="flex flex-wrap items-end justify-between gap-8">
-            <SectionHeading
-              eyebrow="Services"
-              title="How I can help."
-              lead="Need a website, an app, or an extra pair of hands on your team? Here is what I can take on today."
-            />
-            <Reveal delay={0.2}>
-              <Magnetic>
-                <SectionLink to="contact" className="btn btn-primary">
-                  Let&apos;s talk
-                  <ArrowRightIcon size={16} weight="bold" className="btn-arrow" aria-hidden="true" />
-                </SectionLink>
-              </Magnetic>
-            </Reveal>
-          </div>
+    <section id="services" className="py-20 lg:py-28">
+      <Container>
+        <SectionHeading
+          title="What I can build for you."
+          lead="From the first idea to launch day. Here is what I offer, with projects where I have already done it."
+        />
 
-          <ul className="mt-14 grid gap-3 md:grid-cols-2">
-            {services.map((s, i) => (
-              <Reveal as="li" key={s.title} delay={0.06 * i}>
-                <Spotlight className="group card flex h-full flex-col p-7 transition-[border-color] duration-300 hover:border-line-strong">
-                  <div className="flex items-start justify-between gap-4">
-                    <span className="grid size-12 place-items-center rounded-[var(--radius-control)] bg-accent-soft text-accent transition-transform duration-300 ease-[var(--ease-out)] group-hover:-rotate-6 group-hover:scale-110">
-                      <Icon name={s.icon} size={24} weight="duotone" />
-                    </span>
-                  </div>
-                  <h3 className="mt-6 text-2xl font-semibold tracking-tight text-ink">{s.title}</h3>
-                  <p className="mt-3 max-w-[48ch] text-[15px] leading-relaxed text-ink-2">{s.body}</p>
-                  <p className="mt-auto pt-6 text-[13px] text-ink-3">
-                    <span className="text-ink-2">Good for:</span> {s.forWho}
-                  </p>
-                </Spotlight>
-              </Reveal>
-            ))}
-          </ul>
+        <ul className="mt-12 grid gap-3 sm:grid-cols-2">
+          {services.map((s, i) => (
+            <Reveal as="li" key={s.title} delay={0.06 * i}>
+              <Spotlight className="card flex h-full flex-col p-6">
+                <div className="flex items-center gap-3">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-[11px] bg-accent-soft text-accent">
+                    <Icon name={s.icon} size={20} weight="duotone" />
+                  </span>
+                  <h3 className="text-[1.1875rem] leading-tight font-semibold tracking-[-0.015em] text-ink">{s.title}</h3>
+                </div>
+                <p className="mt-4 text-[15px] leading-relaxed text-ink-2">{s.body}</p>
 
-          {/* The working process */}
-          <div className="mt-24">
-            <Reveal>
-              <h3 className="text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-4xl">How we would work together</h3>
-              <p className="mt-3 max-w-[52ch] text-[15px] leading-relaxed text-ink-2">
-                Four steps from first call to launch. You always know which stage we are in.
-              </p>
+                <ul className="mt-5 space-y-2">
+                  {s.points.map((pt) => (
+                    <li key={pt} className="flex gap-2.5 text-[14.5px] text-ink">
+                      <Check size={16} strokeWidth={2.25} aria-hidden="true" className="mt-[3px] shrink-0 text-[var(--live)]" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Proof: where this has been done before */}
+                <div className="mt-auto pt-6">
+                  <p className="border-t border-line pt-4 text-xs text-ink-3">Built before</p>
+                  <ul className="mt-2 flex flex-wrap gap-1.5">
+                    {s.examples.map((slug) => {
+                      const p = getProject(slug);
+                      return p ? (
+                        <li key={slug}>
+                          <Link
+                            href={`/projects/${slug}`}
+                            transitionTypes={["nav-forward"]}
+                            className="inline-flex h-7 items-center rounded-full border border-line bg-surface-2 px-2.5 text-[12.5px] text-ink-2 transition-colors hover:border-line-strong hover:text-ink"
+                          >
+                            {p.name}
+                          </Link>
+                        </li>
+                      ) : null;
+                    })}
+                  </ul>
+                </div>
+              </Spotlight>
             </Reveal>
-            <div className="relative mt-12">
-              <ol className="relative grid gap-10 sm:grid-cols-2">
-                {workflow.map((step, i) => {
-                  const last = i === workflow.length - 1;
-                  return (
-                    <Reveal as="li" key={step.title} delay={0.12 * i}>
-                      <span
-                        className={`relative grid size-9 place-items-center rounded-full border ${
-                          last
-                            ? "border-accent bg-accent text-accent-ink shadow-[0_0_0_6px_var(--accent-soft)]"
-                            : "border-line-strong bg-bg text-ink-2"
-                        }`}
-                      >
-                        {last ? (
-                          <RocketLaunchIcon size={16} weight="fill" aria-hidden="true" />
-                        ) : (
-                          <span className="font-mono text-xs">{i + 1}</span>
-                        )}
-                      </span>
-                      <p className="mt-5 font-display text-xl font-semibold tracking-tight text-ink">{step.title}</p>
-                      <p className="mt-2 max-w-[30ch] text-[15px] leading-relaxed text-ink-2">{step.body}</p>
-                    </Reveal>
-                  );
-                })}
-              </ol>
+          ))}
+        </ul>
+
+        {/* The working process: a real sequence, so the steps are numbered */}
+        <Reveal className="mt-20">
+          <h3 className="text-[1.625rem] font-semibold tracking-[-0.02em] text-ink sm:text-3xl">How we&apos;ll work together</h3>
+          <p className="mt-2 text-[15.5px] leading-relaxed text-ink-2">Four simple steps, and you always know which one we&apos;re on.</p>
+        </Reveal>
+        <ol className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2">
+          {workflow.map((step, i) => (
+            <Reveal as="li" key={step.title} delay={0.08 * i} className="relative grid grid-cols-[auto_1fr] gap-x-4">
+              <span className="grid size-9 place-items-center rounded-full border border-line-strong bg-surface font-mono text-sm font-medium text-ink">
+                {i + 1}
+              </span>
+              <div>
+                <p className="pt-1.5 font-semibold text-ink">{step.title}</p>
+                <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-2">{step.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </ol>
+
+        <Reveal className="mt-12">
+          <div className="card flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center">
+            <div>
+              <p className="font-semibold text-ink">Have a project in mind?</p>
+              <p className="mt-1 text-[14.5px] text-ink-2">Tell me about it, and we can plan the next steps together.</p>
             </div>
+            <SectionLink to="contact" className="btn btn-primary shrink-0">
+              Let&apos;s talk
+              <ArrowRight size={16} strokeWidth={2} className="btn-arrow" aria-hidden="true" />
+            </SectionLink>
           </div>
-        </Container>
-      </div>
+        </Reveal>
+      </Container>
     </section>
   );
 }

@@ -3,6 +3,7 @@ import { Bricolage_Grotesque, Caveat, Geist, Geist_Mono, Instrument_Serif } from
 import { Providers } from "@/components/providers/Providers";
 import { ScrollRail } from "@/components/nav/ScrollRail";
 import { Sidebar } from "@/components/nav/Sidebar";
+import { SIDEBAR_SCRIPT } from "@/components/nav/sidebarScript";
 import { MobileNav } from "@/components/nav/MobileNav";
 import { profile } from "@/content/profile";
 import { SITE_URL, realProfiles, seo } from "@/content/seo";
@@ -100,6 +101,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} ${caveat.variable} ${instrumentSerif.variable} antialiased`}
     >
       <body className="min-h-dvh">
+        <script dangerouslySetInnerHTML={{ __html: SIDEBAR_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
