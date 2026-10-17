@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePath } from "./usePath";
 import { useLenis } from "lenis/react";
 import type { ComponentPropsWithoutRef } from "react";
 
@@ -30,7 +30,7 @@ export function SectionLink({
   children,
   ...rest
 }: { to: string; onNavigate?: () => void } & Omit<ComponentPropsWithoutRef<"a">, "href">) {
-  const onHome = usePathname() === "/";
+  const onHome = usePath() === "/";
   const scrollTo = useScrollToSection();
 
   if (!onHome) {

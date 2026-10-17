@@ -901,8 +901,8 @@ html[data-sidebar="collapsed"] .sb-toggle:focus-visible {
 
 /* ------------------------------------------------------------------
    Intro: the KM monogram draws itself (a 3 s clip, complete
-   at about 1.8 s), holds, then the curtain lifts.
-   Plays on every full page load and lifts when the clip ends; skipped for reduced motion.
+   at about 1.85 s), then the curtain lifts at 2 s.
+   Plays on every full page load; skipped for reduced motion.
 ------------------------------------------------------------------- */
 @keyframes intro-lift {
   to {
@@ -923,9 +923,9 @@ html[data-sidebar="collapsed"] .sb-toggle:focus-visible {
   clip-path: inset(0 0 0 0);
   pointer-events: none;
 }
-/* The curtain lifts only once the clip has finished (Intro.tsx sets data-intro="done"). */
+/* The curtain lifts once the monogram is drawn (Intro.tsx sets data-intro="done"). */
 html[data-intro="done"] .intro {
-  animation: intro-lift 700ms var(--ease-in-out) both;
+  animation: intro-lift 600ms var(--ease-in-out) both;
 }
 /* While it plays, the page waits underneath: no scrolling, and entrance animations hold their first frame. */
 html[data-intro="playing"] {

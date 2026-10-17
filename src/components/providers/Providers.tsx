@@ -25,6 +25,19 @@ function HoldDuringIntro() {
   return null;
 }
 
+/**
+ * Safety net for the intro. Its state lives on <html>; if React ever has to re-render the page from
+ * scratch (a hydration error), it drops attributes it didn't set, and the curtain would stay down.
+ * By the time this runs the page is ready, so a missing state just means: lift it.
+ */
+function IntroGuard() {
+  useEffect(() => {
+    const root = document.documentElement;
+    if (!root.dataset.intro) root.dataset.intro = "done";
+  }, []);
+  return null;
+}
+
 function SmoothScroll({ children }: { children: ReactNode }) {
   const reduce = useReducedMotion();
   // Smooth scrolling is movement: skip it entirely for reduced-motion users.
@@ -41,6 +54,7 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
       <MotionConfig reducedMotion="user">
+        <IntroGuard />
         <ClickBurst />
         <SmoothScroll>{children}</SmoothScroll>
       </MotionConfig>

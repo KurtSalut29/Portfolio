@@ -1,12 +1,12 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePath } from "./usePath";
 import { useEffect, useState } from "react";
 import { nav, type NavId } from "@/content/site";
 
 /** Which nav section is currently in view. IntersectionObserver only, no scroll listeners. */
 export function useActiveSection(): NavId | null {
-  const pathname = usePathname();
+  const pathname = usePath();
   const [active, setActive] = useState<NavId | null>("home");
 
   useEffect(() => {

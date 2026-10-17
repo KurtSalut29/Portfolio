@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePath } from "./usePath";
 import { useLenis } from "lenis/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { nav } from "@/content/site";
@@ -29,7 +29,7 @@ const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n
 
 export function ScrollRail() {
   const lenis = useLenis();
-  const pathname = usePathname();
+  const pathname = usePath();
   const thumbRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);

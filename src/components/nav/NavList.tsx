@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePath } from "./usePath";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { motion } from "motion/react";
 import {
@@ -86,7 +86,7 @@ export function NavLink({
  */
 export function NavList({ layoutGroup, onNavigate }: { layoutGroup: string; onNavigate?: () => void }) {
   const active = useActiveSection();
-  const onHome = usePathname() === "/";
+  const onHome = usePath() === "/";
 
   return (
     <nav aria-label="Main" className="sb-nav flex flex-col gap-5 [@media(max-height:760px)]:gap-3">
