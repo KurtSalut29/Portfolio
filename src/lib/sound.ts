@@ -124,12 +124,17 @@ let unlockedAt = -Infinity;
 /** True right after a click unlocked audio, so the speaker button can tell "wake up" from "turn off". */
 export const justUnlocked = () => performance.now() - unlockedAt < 1500;
 
+/** Whether this moment counts as a click or key press to the browser (only then may audio start). */
+const activeGesture = () => navigator.userActivation?.isActive ?? true;
+
+/** Called on clicks and key presses until audio runs (see UiSounds). */
 export function unlockAudio() {
-  if (!soundsOn()) return;
-  if (!audioReady()) unlockedAt = performance.now();
+  if (!soundsOn() || audioReady()) return;
+  // A key the browser doesn't count (Alt, Ctrl, Esc) can't start audio; wait for a real press.
+  if (!activeGesture()) return;
+  unlockedAt = performance.now();
   const ac = context();
   if (ac && ac.state !== "running") ac.resume().catch(() => {});
-  window.dispatchEvent(new Event(EVENT));
 }
 
 /** True once the browser lets this page play sound. */
@@ -161,13 +166,14 @@ export function subscribeSounds(cb: () => void) {
   };
 }
 
-/** Play a sound if sounds are on. Before the visitor's first click the browser keeps audio locked; that's fine. */
+/** Play a sound if sounds are on. Until the browser unlocks audio (first click), sounds are skipped, not queued. */
 export function play(name: SoundName, force = false) {
   if (!force && !soundsOn()) return;
-  // Without a click yet, a resume would wait and play the sound late; skip it instead.
-  if (!ctx && navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
+  if (audioReady()) return render(ctx!, SOUNDS[name]);
+  // Locked: only a sound triggered by a click or key press may start audio. Anything else (a hover)
+  // is dropped; queueing it would make every missed tick play at once after the first click.
+  if (!activeGesture()) return;
   const ac = context();
   if (!ac) return;
-  if (ac.state === "running") render(ac, SOUNDS[name]);
-  else ac.resume().then(() => ac.state === "running" && render(ac, SOUNDS[name]), () => {});
+  ac.resume().then(() => ac.state === "running" && render(ac, SOUNDS[name]), () => {});
 }
