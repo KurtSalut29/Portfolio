@@ -634,6 +634,31 @@ html[data-sidebar="collapsed"] .sidebar .sb-rail {
   pointer-events: auto;
   transition: opacity 200ms ease 160ms;
 }
+/* Only the layer on show sets the base's height; the hidden one floats over it, so the open sidebar
+   doesn't keep room for the rail's taller stack of icons (and the other way round). */
+.sidebar .sb-base > .sb-rail,
+html[data-sidebar="collapsed"] .sidebar .sb-base > .sb-fade {
+  position: absolute;
+  top: 1rem;
+}
+.sidebar .sb-base > .sb-rail {
+  inset-inline: 0;
+}
+html[data-sidebar="collapsed"] .sidebar .sb-base > .sb-fade {
+  left: 1rem;
+}
+html[data-sidebar="collapsed"] .sidebar .sb-base > .sb-rail {
+  position: static;
+}
+@media (max-height: 760px) {
+  .sidebar .sb-base > .sb-rail,
+  html[data-sidebar="collapsed"] .sidebar .sb-base > .sb-fade {
+    top: 0.75rem;
+  }
+  html[data-sidebar="collapsed"] .sidebar .sb-base > .sb-fade {
+    left: 0.75rem;
+  }
+}
 /* Rows keep their icon at the same spot; in the rail the padding centers it exactly (percent = the row's width). */
 .sidebar nav a {
   transition:

@@ -150,7 +150,7 @@ export function ChatWidget() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2, ease: EASE }}
-            className="chat-launcher fixed right-4 z-50 flex h-12 min-w-12 items-center justify-center gap-2 rounded-full bg-accent px-3.5 text-[14.5px] font-medium text-accent-ink shadow-[0_10px_30px_-10px_color-mix(in_oklab,var(--accent)_70%,transparent)] transition-transform active:scale-95 lg:right-8"
+            className="chat-launcher fixed right-4 z-20 flex h-12 min-w-12 items-center justify-center gap-2 rounded-full bg-accent px-3.5 text-[14.5px] font-medium text-accent-ink shadow-[0_10px_30px_-10px_color-mix(in_oklab,var(--accent)_70%,transparent)] transition-transform active:scale-95 lg:right-8"
           >
             <MessageCircle size={19} strokeWidth={2} aria-hidden="true" />
             <span className="hidden pr-0.5 sm:inline">Ask about Kurt</span>

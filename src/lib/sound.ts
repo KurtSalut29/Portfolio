@@ -10,7 +10,7 @@ type Layer = Tone | Noise;
 
 const SOUNDS = {
   // Pointer moves onto something clickable: the faintest tick.
-  hover: [{ kind: "noise", band: 4200, q: 2, attack: 0.001, decay: 0.014, peak: 0.05 }],
+  hover: [{ kind: "noise", band: 4200, q: 2, attack: 0.001, decay: 0.016, peak: 0.075 }],
   // Press: a soft, low click.
   press: [
     { kind: "noise", band: 1500, q: 1.2, attack: 0.001, decay: 0.022, peak: 0.09 },
@@ -23,21 +23,21 @@ const SOUNDS = {
   ],
   // Something opens (chat, menu, lightbox): a rising pair.
   open: [
-    { kind: "tone", freq: 660, attack: 0.01, decay: 0.16, peak: 0.035 },
-    { kind: "tone", freq: 990, at: 0.05, attack: 0.01, decay: 0.2, peak: 0.03 },
+    { kind: "tone", freq: 660, attack: 0.01, decay: 0.16, peak: 0.055 },
+    { kind: "tone", freq: 990, at: 0.05, attack: 0.01, decay: 0.2, peak: 0.045 },
   ],
   // Something closes: one falling note.
-  close: [{ kind: "tone", freq: 880, glideTo: 520, attack: 0.006, decay: 0.14, peak: 0.035 }],
+  close: [{ kind: "tone", freq: 880, glideTo: 520, attack: 0.006, decay: 0.14, peak: 0.055 }],
   // A message was sent or a reply arrived: a single soft blip.
-  send: [{ kind: "tone", freq: 740, glideTo: 1040, attack: 0.004, decay: 0.09, peak: 0.035 }],
+  send: [{ kind: "tone", freq: 740, glideTo: 1040, attack: 0.004, decay: 0.09, peak: 0.055 }],
   // Done (comment posted, sounds turned on): a short major arpeggio.
   success: [
-    { kind: "tone", freq: 784, attack: 0.004, decay: 0.12, peak: 0.035 },
-    { kind: "tone", freq: 988, at: 0.06, attack: 0.004, decay: 0.12, peak: 0.035 },
-    { kind: "tone", freq: 1175, at: 0.12, attack: 0.004, decay: 0.2, peak: 0.035 },
+    { kind: "tone", freq: 784, attack: 0.004, decay: 0.12, peak: 0.055 },
+    { kind: "tone", freq: 988, at: 0.06, attack: 0.004, decay: 0.12, peak: 0.055 },
+    { kind: "tone", freq: 1175, at: 0.12, attack: 0.004, decay: 0.2, peak: 0.055 },
   ],
   // A heart: a small upward pop.
-  heart: [{ kind: "tone", freq: 600, glideTo: 1100, attack: 0.003, decay: 0.08, peak: 0.045 }],
+  heart: [{ kind: "tone", freq: 600, glideTo: 1100, attack: 0.003, decay: 0.08, peak: 0.07 }],
 } satisfies Record<string, Layer[]>;
 
 export type SoundName = keyof typeof SOUNDS;
@@ -45,7 +45,8 @@ export const isSoundName = (v: unknown): v is SoundName => typeof v === "string"
 
 const KEY = "kms-sounds";
 const EVENT = "kms-sounds-change";
-const MASTER = 0.7;
+// The layers' peaks are small on purpose (they add up); this brings the whole set to a clearly audible level.
+const MASTER = 4;
 
 let ctx: AudioContext | null = null;
 let noise: AudioBuffer | null = null;

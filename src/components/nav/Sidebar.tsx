@@ -109,10 +109,10 @@ export function Sidebar() {
         </div>
 
         {/* Base: the full actions when open, two icon buttons in the rail; they cross-fade in place */}
-        <div className="grid shrink-0 grid-cols-[minmax(0,1fr)] border-t border-line p-4 [@media(max-height:760px)]:p-3">
+        <div className="sb-base relative grid shrink-0 grid-cols-[minmax(0,1fr)] border-t border-line p-4 [@media(max-height:760px)]:p-3">
           <div className="sb-fade col-start-1 row-start-1 w-[238px]" inert={collapsed}>
             <NavActions />
-            <SocialLinks className="-mx-1 mt-3 justify-between" />
+            <SocialLinks labels className="-mx-1 mt-2.5 justify-between" />
           </div>
           <div className="sb-rail col-start-1 row-start-1 flex flex-col items-center gap-2" inert={!collapsed}>
             <Link

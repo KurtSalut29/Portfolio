@@ -190,7 +190,7 @@ export function MobileNav() {
 
               <div className="mt-3 border-t border-line px-1 pt-3">
                 <NavActions onNavigate={close} />
-                <SocialLinks className="-mx-1 mt-2 justify-between" />
+                <SocialLinks labels className="-mx-1 mt-2 justify-between" />
               </div>
             </motion.div>
           </>
