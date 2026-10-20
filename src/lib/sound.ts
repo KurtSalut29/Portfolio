@@ -10,11 +10,15 @@ type Layer = Tone | Noise;
 
 const SOUNDS = {
   // Pointer moves onto something clickable: the faintest tick.
-  hover: [{ kind: "noise", band: 4200, q: 2, attack: 0.001, decay: 0.016, peak: 0.075 }],
-  // Press: a soft, low click.
+  hover: [{ kind: "noise", band: 4200, q: 2, attack: 0.001, decay: 0.016, peak: 0.12 }],
+  // Press and release: a soft, low click going down, a brighter one coming up, like a real button.
   press: [
-    { kind: "noise", band: 1500, q: 1.2, attack: 0.001, decay: 0.022, peak: 0.09 },
-    { kind: "tone", freq: 2400, at: 0.004, attack: 0.001, decay: 0.03, peak: 0.01 },
+    { kind: "noise", band: 1500, q: 1.2, attack: 0.001, decay: 0.022, peak: 0.085 },
+    { kind: "tone", freq: 2400, at: 0.004, attack: 0.001, decay: 0.03, peak: 0.008 },
+  ],
+  release: [
+    { kind: "noise", band: 4400, q: 1.8, attack: 0.001, decay: 0.016, peak: 0.075 },
+    { kind: "tone", freq: 3000, at: 0.006, attack: 0.001, decay: 0.045, peak: 0.012 },
   ],
   // Switches (theme, sounds, sidebar): two quick ticks, like a physical switch.
   toggle: [
@@ -23,18 +27,18 @@ const SOUNDS = {
   ],
   // Something opens (chat, menu, lightbox): a rising pair.
   open: [
-    { kind: "tone", freq: 660, attack: 0.01, decay: 0.16, peak: 0.055 },
-    { kind: "tone", freq: 990, at: 0.05, attack: 0.01, decay: 0.2, peak: 0.045 },
+    { kind: "tone", freq: 660, attack: 0.01, decay: 0.16, peak: 0.063 },
+    { kind: "tone", freq: 990, at: 0.05, attack: 0.01, decay: 0.2, peak: 0.052 },
   ],
   // Something closes: one falling note.
-  close: [{ kind: "tone", freq: 880, glideTo: 520, attack: 0.006, decay: 0.14, peak: 0.055 }],
+  close: [{ kind: "tone", freq: 880, glideTo: 520, attack: 0.006, decay: 0.14, peak: 0.063 }],
   // A message was sent or a reply arrived: a single soft blip.
-  send: [{ kind: "tone", freq: 740, glideTo: 1040, attack: 0.004, decay: 0.09, peak: 0.055 }],
+  send: [{ kind: "tone", freq: 740, glideTo: 1040, attack: 0.004, decay: 0.09, peak: 0.063 }],
   // Done (comment posted, sounds turned on): a short major arpeggio.
   success: [
-    { kind: "tone", freq: 784, attack: 0.004, decay: 0.12, peak: 0.055 },
-    { kind: "tone", freq: 988, at: 0.06, attack: 0.004, decay: 0.12, peak: 0.055 },
-    { kind: "tone", freq: 1175, at: 0.12, attack: 0.004, decay: 0.2, peak: 0.055 },
+    { kind: "tone", freq: 784, attack: 0.004, decay: 0.12, peak: 0.057 },
+    { kind: "tone", freq: 988, at: 0.06, attack: 0.004, decay: 0.12, peak: 0.057 },
+    { kind: "tone", freq: 1175, at: 0.12, attack: 0.004, decay: 0.2, peak: 0.057 },
   ],
   // A heart: a small upward pop.
   heart: [{ kind: "tone", freq: 600, glideTo: 1100, attack: 0.003, decay: 0.08, peak: 0.07 }],
@@ -45,8 +49,8 @@ export const isSoundName = (v: unknown): v is SoundName => typeof v === "string"
 
 const KEY = "kms-sounds";
 const EVENT = "kms-sounds-change";
-// The layers' peaks are small on purpose (they add up); this brings the whole set to a clearly audible level.
-const MASTER = 4;
+// Levels matched to bryllim.com's interface sounds (measured by rendering both offline): clearly audible, never loud.
+const MASTER = 3.6;
 
 let ctx: AudioContext | null = null;
 let noise: AudioBuffer | null = null;

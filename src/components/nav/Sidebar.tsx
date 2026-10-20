@@ -10,6 +10,7 @@ import { NavActions } from "./NavActions";
 import { SocialLinks } from "./SocialLinks";
 import { ThemeToggle } from "./ThemeToggle";
 import { SoundToggle } from "@/components/sound/SoundToggle";
+import { AskButton } from "@/components/chat/AskButton";
 import { SIDEBAR_KEY as KEY } from "./sidebarScript";
 
 function subscribe(onChange: () => void) {
@@ -111,10 +112,16 @@ export function Sidebar() {
         {/* Base: the full actions when open, two icon buttons in the rail; they cross-fade in place */}
         <div className="sb-base relative grid shrink-0 grid-cols-[minmax(0,1fr)] border-t border-line p-4 [@media(max-height:760px)]:p-3">
           <div className="sb-fade col-start-1 row-start-1 w-[238px]" inert={collapsed}>
+            <div className="mb-2">
+              <AskButton />
+            </div>
             <NavActions />
             <SocialLinks labels className="-mx-1 mt-2.5 justify-between" />
           </div>
           <div className="sb-rail col-start-1 row-start-1 flex flex-col items-center gap-2" inert={!collapsed}>
+            <span data-tip="Ask about Kurt (Alt+K)" className="contents">
+              <AskButton compact />
+            </span>
             <Link
               href={profile.resumeHref}
               transitionTypes={["nav-forward"]}

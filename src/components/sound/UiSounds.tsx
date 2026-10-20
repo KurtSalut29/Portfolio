@@ -8,8 +8,8 @@ const CLICKABLE = 'a[href], button:not([disabled]), [role="button"], [role="tab"
 
 /**
  * One set of listeners for the whole site: a tick when the mouse moves onto something clickable,
- * a click when it is pressed. An element can ask for a different sound on click with data-sound
- * (toggle, open, close, send, success, heart), or for silence with data-sound="none".
+ * a click when it is pressed and another when it is let go. An element can ask for a different sound
+ * on click with data-sound (toggle, open, close, send, success, heart), or for silence with data-sound="none".
  */
 export function UiSounds() {
   useEffect(() => {
@@ -35,11 +35,19 @@ export function UiSounds() {
       play("hover");
     };
 
+    // Press on the way down, release on the way up, like a physical button.
+    let pressed: Element | null = null;
     const onDown = (e: PointerEvent) => {
       if (e.button !== 0) return;
       const el = target(e);
+      pressed = el;
       // Elements with their own sound play it on click instead.
       if (el && !el.dataset.sound) play("press");
+    };
+    const onUp = (e: PointerEvent) => {
+      const el = target(e);
+      if (el && el === pressed && !el.dataset.sound) play("release");
+      pressed = null;
     };
 
     const onClick = (e: MouseEvent) => {
@@ -53,10 +61,12 @@ export function UiSounds() {
 
     document.addEventListener("pointerover", onOver, true);
     document.addEventListener("pointerdown", onDown, true);
+    document.addEventListener("pointerup", onUp, true);
     document.addEventListener("click", onClick, true);
     return () => {
       document.removeEventListener("pointerover", onOver, true);
       document.removeEventListener("pointerdown", onDown, true);
+      document.removeEventListener("pointerup", onUp, true);
       document.removeEventListener("click", onClick, true);
     };
   }, []);

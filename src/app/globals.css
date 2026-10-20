@@ -114,7 +114,7 @@
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --font-display: var(--font-bricolage), var(--font-geist-sans), ui-sans-serif, sans-serif;
-  --font-hand: var(--font-caveat), cursive;
+  --font-pixel: var(--font-geist-pixel), var(--font-geist-mono), ui-monospace, monospace;
   --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 }
 
@@ -979,64 +979,167 @@ html[data-intro="skip"] .intro {
 
 
 /* ------------------------------------------------------------------
-   Chat: the launcher and window sit above the mobile tab bar,
-   and in the bottom-right corner on desktop.
+   Ask: a full-screen prompt over the blurred page (after bryllim.com's
+   "ask anything"). The phone launcher sits above the mobile tab bar.
 ------------------------------------------------------------------- */
-.chat-launcher,
-.chat-panel {
+.chat-launcher {
   bottom: calc(88px + env(safe-area-inset-bottom));
 }
-.chat-panel {
-  top: 76px;
+.ask-backdrop {
+  background: color-mix(in oklab, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
-@media (min-width: 640px) {
-  .chat-panel {
-    top: auto;
-    height: min(600px, calc(100dvh - 88px - env(safe-area-inset-bottom) - 96px));
+.ask-title {
+  font-family: var(--font-pixel);
+  font-size: clamp(1.9rem, 5.5vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-transform: lowercase;
+}
+.ask-title.is-small {
+  font-size: clamp(1.25rem, 3.4vw, 1.95rem);
+  line-height: 1.3;
+}
+/* The question, as a chat bubble with a little tail */
+.ask-bubble {
+  position: relative;
+  margin-left: 11px;
+  max-width: min(85vw, 600px);
+  padding: 10px 15px;
+  border-radius: 14px;
+  border-top-left-radius: 5px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(0.95rem, 2.6vw, 1.2rem);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  transform-origin: 0 50%;
+}
+.ask-bubble::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 12px;
+  border-style: solid;
+  border-width: 6px 8px 6px 0;
+  border-color: transparent var(--line) transparent transparent;
+}
+.ask-bubble::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 13px;
+  border-style: solid;
+  border-width: 5px 7px 5px 0;
+  border-color: transparent var(--surface-2) transparent transparent;
+}
+/* "thinking": a light sweeps across the words while four dots turn */
+@keyframes ask-sweep {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+  to {
+    -webkit-mask-position: 0% 0;
+    mask-position: 0% 0;
   }
 }
-@media (min-width: 1024px) {
-  .chat-launcher,
-  .chat-panel {
-    bottom: 28px;
-  }
-  .chat-panel {
-    height: min(620px, calc(100dvh - 56px));
+.ask-shimmer {
+  font-size: clamp(1.25rem, 3.4vw, 1.95rem);
+  -webkit-mask-image: linear-gradient(90deg, #000 0 38%, rgb(0 0 0 / 0.22) 50%, #000 62% 100%);
+  mask-image: linear-gradient(90deg, #000 0 38%, rgb(0 0 0 / 0.22) 50%, #000 62% 100%);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: ask-sweep 1.8s linear infinite;
+}
+.ask-shimmer .ask-title {
+  color: var(--ink-3);
+}
+@keyframes ask-turn {
+  100% {
+    transform: rotate(0.5turn);
   }
 }
-/* The composer box shows focus (its border turns accent), so the textarea itself doesn't need a ring */
-.chat-panel textarea:focus-visible {
+.ask-loader {
+  width: 0.85em;
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  --dot: no-repeat radial-gradient(farthest-side, var(--ink-3) 94%, #0000);
+  background: var(--dot) 0 0, var(--dot) 100% 0, var(--dot) 100% 100%, var(--dot) 0 100%;
+  background-size: 40% 40%;
+  animation: ask-turn 1s infinite;
+}
+/* The answer: readable mono, a little smaller than the prompt */
+.ask-answer {
+  max-width: min(92vw, 660px);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+.ask-answer > * + * {
+  margin-top: 0.8em;
+}
+/* What you type, mirrored from a hidden input, followed by a blinking caret */
+.ask-field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: 2.4rem;
+  max-width: min(90vw, 700px);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: clamp(1.05rem, 3vw, 1.5rem);
+  cursor: text;
+  overflow-wrap: anywhere;
+}
+@keyframes ask-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.ask-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  margin-left: 3px;
+  background: var(--accent);
+  animation: ask-blink 1.06s step-end infinite;
+}
+/* Kept focusable and at 16px (so phones don't zoom in), but invisible: the mirror above is what shows */
+.ask-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  font-size: 16px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+}
+.ask-input:focus-visible {
   outline: none;
 }
-/* Waiting for the first words of a reply */
-.chat-typing {
-  display: inline-flex;
-  gap: 4px;
-  padding: 6px 0;
+.ask-field:has(.ask-input:focus-visible) {
+  outline: none;
 }
-.chat-typing span {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--ink-3);
-  animation: chat-dot 1s ease-in-out infinite;
+.ask-field:not(:has(.ask-input:focus)) .ask-caret {
+  animation: none;
+  opacity: 0.35;
 }
-.chat-typing span:nth-child(2) {
-  animation-delay: 0.15s;
-}
-.chat-typing span:nth-child(3) {
-  animation-delay: 0.3s;
-}
-@keyframes chat-dot {
-  0%,
-  80%,
-  100% {
-    opacity: 0.3;
-    transform: translateY(0);
-  }
-  40% {
-    opacity: 1;
-    transform: translateY(-3px);
+@media (prefers-reduced-motion: reduce) {
+  .ask-shimmer,
+  .ask-loader,
+  .ask-caret {
+    animation: none;
   }
 }
 

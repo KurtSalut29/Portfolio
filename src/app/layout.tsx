@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Caveat, Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Bricolage_Grotesque, Geist, Geist_Mono, Geist_Pixel, Instrument_Serif } from "next/font/google";
 import { Providers } from "@/components/providers/Providers";
 import { ScrollRail } from "@/components/nav/ScrollRail";
 import { Sidebar } from "@/components/nav/Sidebar";
@@ -18,7 +18,8 @@ const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
 });
-const caveat = Caveat({ variable: "--font-caveat", subsets: ["latin"], weight: ["500"] });
+// Only the "Ask" overlay uses it, so it loads when that opens instead of with every page.
+const geistPixel = Geist_Pixel({ variable: "--font-geist-pixel", subsets: ["latin"], weight: "400", preload: false });
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
   subsets: ["latin"],
@@ -99,7 +100,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} ${caveat.variable} ${instrumentSerif.variable} antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} ${geistPixel.variable} ${instrumentSerif.variable} antialiased`}
     >
       <body className="min-h-dvh">
         <script dangerouslySetInnerHTML={{ __html: SIDEBAR_SCRIPT }} />
