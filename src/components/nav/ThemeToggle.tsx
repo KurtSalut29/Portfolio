@@ -2,14 +2,29 @@
 
 import { MoonIcon, SunIcon } from "@phosphor-icons/react/dist/ssr";
 import { useTheme } from "next-themes";
-import { dissolveTheme } from "./themeDissolve";
+import { useEffect, useRef } from "react";
+import { dissolveTheme, prepareDissolve } from "./themeDissolve";
 
 export function ThemeToggle({ withLabel = false }: { withLabel?: boolean }) {
   const { setTheme } = useTheme();
+  const ref = useRef<HTMLButtonElement>(null);
+
+  // Build the switch animation while the page is idle, so the first press starts at once.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !("requestIdleCallback" in window)) return;
+    // Only the toggle on screen: the sidebar keeps a hidden copy in its other (inert) layer.
+    const id = requestIdleCallback(() => el.offsetParent && !el.closest("[inert]") && prepareDissolve(el), { timeout: 4000 });
+    return () => cancelIdleCallback(id);
+  }, []);
 
   return (
     <button
+      ref={ref}
       type="button"
+      // Rebuild if the button moved (window resized, sidebar collapsed) before it is pressed.
+      onPointerEnter={(e) => prepareDissolve(e.currentTarget)}
+      onFocus={(e) => prepareDissolve(e.currentTarget)}
       onClick={(e) => {
         // Read the page itself, not React state, so a quick second press still flips the right way.
         const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
