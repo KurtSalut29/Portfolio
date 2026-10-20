@@ -59,3 +59,6 @@ revoke all on function public.get_guestbook() from public;
 revoke all on function public.add_guestbook(text, text, text, int) from public;
 grant execute on function public.get_guestbook() to anon;
 grant execute on function public.add_guestbook(text, text, text, int) to anon;
+
+-- Make the new functions visible to the API right away.
+notify pgrst, 'reload schema';

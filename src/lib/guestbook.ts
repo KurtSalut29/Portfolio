@@ -16,10 +16,15 @@ export async function getGuestbook(): Promise<Entry[]> {
       headers: { apikey: key, Authorization: `Bearer ${key}` },
       next: { revalidate: 300, tags: ["guestbook"] },
     });
+    // 404: the function doesn't exist yet. Not a crash, just a setup step, so a note instead of an error.
+    if (res.status === 404) {
+      console.warn("Guestbook isn't set up yet: run supabase/guestbook.sql in the Supabase SQL Editor.");
+      return [];
+    }
     if (!res.ok) throw new Error(`Supabase get_guestbook: ${res.status} ${await res.text()}`);
     return (await res.json()) as Entry[];
   } catch (error) {
-    // Not set up yet (SQL not run) or Supabase is down: the section still shows the form.
+    // Supabase is down or unreachable: the section still shows the form.
     console.error(error);
     return [];
   }
