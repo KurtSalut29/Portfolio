@@ -12,6 +12,7 @@ import {
   Images,
   Layers,
   Mail,
+  MessageSquareText,
   Milestone,
   UserRound,
   type LucideIcon,
@@ -34,6 +35,7 @@ export const ICONS: Record<NavId, LucideIcon> = {
   journey: Milestone,
   contact: Mail,
   gallery: Images,
+  guestbook: MessageSquareText,
 };
 
 /** How many things each collection holds, read from the content so it never goes stale. */

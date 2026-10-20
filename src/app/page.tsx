@@ -8,6 +8,7 @@ import { Skills } from "@/components/sections/Skills";
 import { Certificates } from "@/components/sections/Certificates";
 import { Journey } from "@/components/sections/Journey";
 import { Contact } from "@/components/sections/Contact";
+import { Guestbook } from "@/components/sections/Guestbook";
 import { Footer } from "@/components/sections/Footer";
 import { Marquee } from "@/components/sections/Marquee";
 
@@ -28,6 +29,7 @@ export default function Home() {
         <Skills />
         <Certificates />
         <Journey />
+        <Guestbook />
         <Contact />
         <Footer />
       </div>

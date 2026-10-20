@@ -14,6 +14,7 @@ export const nav = [
   { id: "journey", label: "Journey", group: "Track record" },
   // A page of its own rather than a section; listed once it has photos (src/content/gallery.ts).
   { id: "gallery", label: "Gallery", group: "Track record", href: "/gallery" },
+  { id: "guestbook", label: "Guestbook", group: "Get in touch" },
   { id: "contact", label: "Contact", group: "Get in touch" },
 ] as const;
 

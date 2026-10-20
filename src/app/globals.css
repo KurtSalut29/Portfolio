@@ -25,6 +25,7 @@
   --accent-soft: #e2e8f6;
   --live: #16a34a;
   --heart: #e11d48;
+  --star: #e0a100;
   --gh-0: #e4e8ee;
   --gh-1: #9be9a8;
   --gh-2: #40c463;
@@ -71,6 +72,7 @@
   --accent-soft: #19233f;
   --live: #4ade80;
   --heart: #fb7185;
+  --star: #f5c04a;
   --gh-0: #1a2232;
   --gh-1: #0e4429;
   --gh-2: #006d32;
@@ -950,6 +952,68 @@ html[data-intro="skip"] .intro {
   display: none;
 }
 
+
+/* ------------------------------------------------------------------
+   Chat: the launcher and window sit above the mobile tab bar,
+   and in the bottom-right corner on desktop.
+------------------------------------------------------------------- */
+.chat-launcher,
+.chat-panel {
+  bottom: calc(88px + env(safe-area-inset-bottom));
+}
+.chat-panel {
+  top: 76px;
+}
+@media (min-width: 640px) {
+  .chat-panel {
+    top: auto;
+    height: min(600px, calc(100dvh - 88px - env(safe-area-inset-bottom) - 96px));
+  }
+}
+@media (min-width: 1024px) {
+  .chat-launcher,
+  .chat-panel {
+    bottom: 28px;
+  }
+  .chat-panel {
+    height: min(620px, calc(100dvh - 56px));
+  }
+}
+/* The composer box shows focus (its border turns accent), so the textarea itself doesn't need a ring */
+.chat-panel textarea:focus-visible {
+  outline: none;
+}
+/* Waiting for the first words of a reply */
+.chat-typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 6px 0;
+}
+.chat-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--ink-3);
+  animation: chat-dot 1s ease-in-out infinite;
+}
+.chat-typing span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.chat-typing span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes chat-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
 
 /* Tooltip shown on hover/focus of .tip-host. Origin: bottom, where it attaches. */
 .tip {

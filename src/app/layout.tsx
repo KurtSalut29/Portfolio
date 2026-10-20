@@ -5,6 +5,7 @@ import { ScrollRail } from "@/components/nav/ScrollRail";
 import { Sidebar } from "@/components/nav/Sidebar";
 import { SIDEBAR_SCRIPT } from "@/components/nav/sidebarScript";
 import { MobileNav } from "@/components/nav/MobileNav";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 import { profile } from "@/content/profile";
 import { SITE_URL, realProfiles, seo } from "@/content/seo";
 import { Intro } from "@/components/intro/Intro";
@@ -120,6 +121,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <ScrollRail />
+          <ChatWidget />
         </Providers>
       </body>
     </html>
