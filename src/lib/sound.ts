@@ -61,6 +61,8 @@ function context() {
   if (!AC) return null;
   try {
     ctx = new AC();
+    // Lets the speaker button show when the browser has unlocked audio.
+    ctx.onstatechange = () => window.dispatchEvent(new Event(EVENT));
     // One second of white noise, reused by every click from a random offset.
     noise = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
     const data = noise.getChannelData(0);
@@ -112,6 +114,26 @@ function render(ac: AudioContext, layers: readonly Layer[]) {
   }
   setTimeout(() => out.disconnect(), (end - ac.currentTime + 0.1) * 1000);
 }
+
+/**
+ * Browsers keep audio locked until the visitor first clicks or presses a key on the page, so after a
+ * refresh hover ticks stay silent until then. This runs on that first interaction, wherever it lands,
+ * so sounds work from there on without touching the toggle.
+ */
+let unlockedAt = -Infinity;
+/** True right after a click unlocked audio, so the speaker button can tell "wake up" from "turn off". */
+export const justUnlocked = () => performance.now() - unlockedAt < 1500;
+
+export function unlockAudio() {
+  if (!soundsOn()) return;
+  if (!audioReady()) unlockedAt = performance.now();
+  const ac = context();
+  if (ac && ac.state !== "running") ac.resume().catch(() => {});
+  window.dispatchEvent(new Event(EVENT));
+}
+
+/** True once the browser lets this page play sound. */
+export const audioReady = () => !!ctx && ctx.state === "running";
 
 export function soundsOn() {
   try {

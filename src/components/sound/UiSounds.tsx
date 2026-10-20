@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { isSoundName, play } from "@/lib/sound";
+import { isSoundName, play, unlockAudio } from "@/lib/sound";
 
 // What counts as clickable. Anything inside [data-sound="none"] stays silent.
 const CLICKABLE = 'a[href], button:not([disabled]), [role="button"], [role="tab"], summary, input[type="submit"], label[data-sound]';
@@ -59,11 +59,19 @@ export function UiSounds() {
       else if (e.detail === 0) play("press");
     };
 
+    // The first click or key press anywhere opens the browser's audio lock.
+    const unlock = () => {
+      unlockAudio();
+      for (const t of ["pointerdown", "keydown", "touchend"]) window.removeEventListener(t, unlock, true);
+    };
+    for (const t of ["pointerdown", "keydown", "touchend"]) window.addEventListener(t, unlock, true);
+
     document.addEventListener("pointerover", onOver, true);
     document.addEventListener("pointerdown", onDown, true);
     document.addEventListener("pointerup", onUp, true);
     document.addEventListener("click", onClick, true);
     return () => {
+      for (const t of ["pointerdown", "keydown", "touchend"]) window.removeEventListener(t, unlock, true);
       document.removeEventListener("pointerover", onOver, true);
       document.removeEventListener("pointerdown", onDown, true);
       document.removeEventListener("pointerup", onUp, true);
