@@ -14,6 +14,7 @@ import { useActiveSection } from "./useActiveSection";
 import { SocialLinks } from "./SocialLinks";
 import { NavActions } from "./NavActions";
 import { ThemeToggle } from "./ThemeToggle";
+import { SoundToggle } from "@/components/sound/SoundToggle";
 import { ProgressLine } from "./ScrollProgress";
 
 const SHEET_EASE = [0.32, 0.72, 0, 1] as const;
@@ -78,7 +79,10 @@ export function MobileNav() {
           </span>
           <span className="text-[15px] font-semibold tracking-[-0.015em] text-ink">{profile.fullName}</span>
         </Link>
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <SoundToggle />
+          <ThemeToggle />
+        </div>
         <ProgressLine />
       </header>
 
@@ -107,6 +111,7 @@ export function MobileNav() {
         <button
           type="button"
           onClick={() => setOpen((o) => !o)}
+          data-sound={open ? "close" : "open"}
           aria-expanded={open}
           aria-controls="more-sheet"
           className={`${tab} ${open || moreActive ? "text-ink" : "text-ink-3"}`}
@@ -148,6 +153,7 @@ export function MobileNav() {
                 <button
                   type="button"
                   onClick={close}
+                  data-sound="close"
                   aria-label="Close"
                   autoFocus
                   className="grid size-8 place-items-center rounded-full text-ink-3 transition-colors hover:bg-surface-2 hover:text-ink"

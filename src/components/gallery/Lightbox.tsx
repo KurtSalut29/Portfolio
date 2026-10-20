@@ -78,7 +78,7 @@ export function Lightbox({
             <p className="font-mono text-xs tabular-nums">
               {index! + 1} / {photos.length}
             </p>
-            <button ref={closeRef} type="button" onClick={onClose} aria-label="Close" className={navBtn}>
+            <button ref={closeRef} type="button" onClick={onClose} data-sound="close" aria-label="Close" className={navBtn}>
               <X size={18} />
             </button>
           </div>

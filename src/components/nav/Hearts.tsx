@@ -105,6 +105,7 @@ export function Hearts({ className = "" }: { className?: string }) {
         ref={button}
         type="button"
         onClick={love}
+        data-sound="heart"
         aria-pressed={sent}
         aria-label="Send a heart"
         className="heart-btn relative inline-flex h-10 items-center gap-2 rounded-full border border-line bg-surface pr-4 pl-3.5 text-sm font-medium text-ink shadow-[var(--card-shadow)] transition-[transform,border-color] duration-150 hover:border-line-strong active:scale-[0.96]"

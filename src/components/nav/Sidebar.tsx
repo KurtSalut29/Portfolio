@@ -9,6 +9,7 @@ import { NavList } from "./NavList";
 import { NavActions } from "./NavActions";
 import { SocialLinks } from "./SocialLinks";
 import { ThemeToggle } from "./ThemeToggle";
+import { SoundToggle } from "@/components/sound/SoundToggle";
 import { SIDEBAR_KEY as KEY } from "./sidebarScript";
 
 function subscribe(onChange: () => void) {
@@ -90,6 +91,7 @@ export function Sidebar() {
           <button
             type="button"
             onClick={() => setCollapsed(!collapsed)}
+            data-sound="toggle"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             aria-expanded={!collapsed}
             data-tip={collapsed ? "Expand sidebar" : undefined}
@@ -122,6 +124,9 @@ export function Sidebar() {
             >
               <FileText size={16} strokeWidth={1.75} aria-hidden="true" />
             </Link>
+            <span data-tip="Interface sounds" className="contents">
+              <SoundToggle />
+            </span>
             <span data-tip="Switch theme" className="contents">
               <ThemeToggle />
             </span>

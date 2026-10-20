@@ -22,6 +22,7 @@ export function ThemeToggle({ withLabel = false }: { withLabel?: boolean }) {
     <button
       ref={ref}
       type="button"
+      data-sound="toggle"
       // Rebuild if the button moved (window resized, sidebar collapsed) before it is pressed.
       onPointerEnter={(e) => prepareDissolve(e.currentTarget)}
       onFocus={(e) => prepareDissolve(e.currentTarget)}

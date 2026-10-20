@@ -5,6 +5,7 @@ import { MotionConfig, useReducedMotion } from "motion/react";
 import { ReactLenis, useLenis } from "lenis/react";
 import { useEffect, type ReactNode } from "react";
 import { ClickBurst } from "@/components/motion/ClickBurst";
+import { UiSounds } from "@/components/sound/UiSounds";
 
 /** The sidebar list gets the wheel only when it has links to scroll to; otherwise the page scrolls. */
 const scrollsOnItsOwn = (node: HTMLElement) =>
@@ -55,6 +56,7 @@ export function Providers({ children }: { children: ReactNode }) {
     <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem disableTransitionOnChange>
       <MotionConfig reducedMotion="user">
         <IntroGuard />
+        <UiSounds />
         <ClickBurst />
         <SmoothScroll>{children}</SmoothScroll>
       </MotionConfig>

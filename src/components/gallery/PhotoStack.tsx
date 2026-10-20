@@ -145,6 +145,7 @@ export function PhotoStack({ photos }: { photos: Photo[] }) {
         <button
           type="button"
           onClick={() => setViewer(current)}
+          data-sound="open"
           className="inline-flex items-center gap-1.5 font-medium text-ink-2 transition-colors hover:text-ink"
         >
           <Maximize2 size={13} strokeWidth={2} aria-hidden="true" />

@@ -2,8 +2,9 @@ import Link from "next/link";
 import { ArrowUpRightIcon, FileTextIcon } from "@phosphor-icons/react/dist/ssr";
 import { profile } from "@/content/profile";
 import { ThemeToggle } from "./ThemeToggle";
+import { SoundToggle } from "@/components/sound/SoundToggle";
 
-/** Resume and theme, side by side. Shared by the sidebar and the mobile drawer. */
+/** Resume, sounds, and theme, side by side. Shared by the sidebar and the mobile drawer. */
 export function NavActions({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex gap-2">
@@ -21,6 +22,7 @@ export function NavActions({ onNavigate }: { onNavigate?: () => void }) {
           className="text-ink-3 transition-transform duration-200 ease-[var(--ease-out)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
         />
       </Link>
+      <SoundToggle />
       <ThemeToggle />
     </div>
   );
