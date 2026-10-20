@@ -120,11 +120,7 @@ export function ChatWidget() {
       });
       if (!res.ok || !res.body) {
         const { error } = await res.json().catch(() => ({ error: "" }));
-        return fail(
-          res.status === 503
-            ? `The assistant isn't available right now. You can email Kurt at ${profile.email}.`
-            : `${error || "Something went wrong."} You can also email Kurt at ${profile.email}.`,
-        );
+        return fail(`${error || "Something went wrong."} You can also email Kurt at ${profile.email}.`);
       }
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -212,7 +208,7 @@ export function ChatWidget() {
               onClick={close}
               data-sound="none"
               aria-label="Close"
-              className="absolute top-4 right-4 z-10 flex h-9 items-center gap-2 rounded-full px-3 font-mono text-[12px] text-ink-3 transition-colors hover:bg-surface-2 hover:text-ink sm:top-6 sm:right-6"
+              className="absolute top-4 right-4 z-10 flex h-9 items-center gap-2 rounded-full bg-[color-mix(in_oklab,var(--bg)_75%,transparent)] px-3 font-mono text-[12px] text-ink-3 transition-colors hover:bg-surface-2 hover:text-ink sm:top-6 sm:right-6"
             >
               <span className="hidden sm:inline">esc</span>
               <X size={16} strokeWidth={2} aria-hidden="true" />
@@ -321,12 +317,14 @@ export function ChatWidget() {
                     start over
                   </button>
                 )}
+
+                {/* In the flow (not pinned to the bottom), so a long answer never runs underneath it */}
+                <p className="mt-4 max-w-[640px] font-mono text-[11.5px] leading-snug text-ink-3">
+                  ai · answers come from this portfolio and can be wrong · for anything important, email {profile.email}
+                </p>
               </motion.div>
             </div>
 
-            <p className="pointer-events-none absolute right-6 bottom-5 left-[clamp(1.5rem,9vw,8rem)] font-mono text-[11.5px] leading-snug text-ink-3">
-              ai · answers come from this portfolio and can be wrong · for anything important, email {profile.email}
-            </p>
           </motion.div>
         )}
       </AnimatePresence>

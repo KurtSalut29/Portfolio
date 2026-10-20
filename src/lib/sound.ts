@@ -60,6 +60,10 @@ function context() {
   const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
   if (!AC) return null;
   try {
+    // UI sounds mix with whatever else is playing (they never pause the visitor's music), and on an
+    // iPhone they follow the ring/silent switch like other app sounds.
+    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+    if (session) session.type = "ambient";
     ctx = new AC();
     // Lets the speaker button show when the browser has unlocked audio.
     ctx.onstatechange = () => window.dispatchEvent(new Event(EVENT));
@@ -134,7 +138,16 @@ export function unlockAudio() {
   if (!activeGesture()) return;
   unlockedAt = performance.now();
   const ac = context();
-  if (ac && ac.state !== "running") ac.resume().catch(() => {});
+  if (!ac) return;
+  if (ac.state !== "running") ac.resume().catch(() => {});
+  // iPhone and iPad (Safari, and every iOS browser) only open audio for good once something actually
+  // plays inside the tap. One silent sample is enough.
+  try {
+    const src = ac.createBufferSource();
+    src.buffer = ac.createBuffer(1, 1, ac.sampleRate);
+    src.connect(ac.destination);
+    src.start(0);
+  } catch {}
 }
 
 /** True once the browser lets this page play sound. */

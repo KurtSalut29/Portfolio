@@ -8,8 +8,16 @@ import { SYSTEM_PROMPT } from "@/lib/chat/knowledge";
 
 const KEY = process.env.GEMINI_API_KEY;
 const API = process.env.GEMINI_API_BASE ?? "https://generativelanguage.googleapis.com/v1beta";
-// Free-tier models, tried in order: if one is rate limited or unavailable, the next one answers.
-const MODELS = [process.env.GEMINI_MODEL, "gemini-3.5-flash-lite", "gemini-3.1-flash-lite"].filter(
+// Free-tier models, tried in order: if one is rate limited or busy ("high demand" 503s are common on the
+// free tier), the next one answers. Lite models first: they're the fastest for short answers.
+const MODELS = [
+  process.env.GEMINI_MODEL,
+  "gemini-3.5-flash-lite",
+  "gemini-flash-lite-latest",
+  "gemini-3.1-flash-lite",
+  "gemini-3.6-flash",
+  "gemini-3-flash-preview",
+].filter(
   (m, i, all): m is string => !!m && all.indexOf(m) === i,
 );
 
@@ -51,7 +59,8 @@ async function open(messages: Message[], signal: AbortSignal) {
   const body = JSON.stringify({
     systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
     contents: messages.map((m) => ({ role: m.role === "assistant" ? "model" : "user", parts: [{ text: m.text }] })),
-    generationConfig: { maxOutputTokens: 700 },
+    // Room for the larger models' hidden thinking as well as the short answer itself.
+    generationConfig: { maxOutputTokens: 1500 },
   });
   let last = 0;
   for (const model of MODELS) {
@@ -118,7 +127,7 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     const status = (error as { status?: number }).status;
-    if (status === 429) return json(429, "The assistant is busy right now. Please try again in a minute.");
+    if (status === 429 || status === 503) return json(503, "The assistant is busy right now. Please try again in a minute.");
     return json(502, "The assistant couldn't answer right now.");
   }
 }

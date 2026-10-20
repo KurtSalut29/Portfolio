@@ -12,7 +12,8 @@ function inline(text: string): ReactNode[] {
   for (const m of text.matchAll(INLINE)) {
     if (m.index > last) out.push(text.slice(last, m.index));
     const [, bold, label, href, bare] = m;
-    if (bold) out.push(<strong key={m.index} className="font-semibold text-ink">{bold}</strong>);
+    // Bold can wrap a link (**[ZIREN](/projects/ziren)**), so its inside is parsed too.
+    if (bold) out.push(<strong key={m.index} className="font-semibold text-ink">{inline(bold)}</strong>);
     else {
       const url = href ?? bare!;
       const external = /^https?:/.test(url) && !url.includes("kurtmichaelsalut");
