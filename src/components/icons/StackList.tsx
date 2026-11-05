@@ -16,6 +16,8 @@ const TECH: Record<string, string | LucideIcon> = {
   Python: "python",
   PHP: "php",
   Leaflet: "leaflet",
+  PostgreSQL: "postgresql",
+  "Google Colab": "googlecolab",
   NLP: BrainCircuit,
   "Machine learning": BrainCircuit,
   AsyncStorage: Database,

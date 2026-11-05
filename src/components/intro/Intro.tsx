@@ -13,7 +13,7 @@ const START = `try{var d=document.documentElement;d.dataset.intro=matchMedia('(p
 // rest is a still frame), with a short beat to read it. Safety nets: an error, no playback within 2.5 s
 // (blocked or slow network), and a hard cap, so the site can never stay hidden behind the curtain.
 const LIFT_AT = 2.0;
-const FINISH = `(function(){var d=document.documentElement;if(d.dataset.intro!=='playing')return;var v=document.querySelector('.intro-video');var t=[];function done(){if(d.dataset.intro!=='playing')return;t.forEach(clearTimeout);d.dataset.intro='done'}if(!v){done();return}function arm(){t.push(setTimeout(done,Math.max(0,${LIFT_AT}-v.currentTime)*1000))}if(!v.paused&&v.currentTime>0)arm();else v.addEventListener('playing',arm,{once:true});v.addEventListener('ended',done);v.addEventListener('error',done);t.push(setTimeout(function(){if(v.paused||v.currentTime===0)done()},2500));t.push(setTimeout(done,6000))})()`;
+const FINISH = `(function(){var d=document.documentElement;if(d.dataset.intro!=='playing')return;var v=document.querySelector('.intro-video');var t=[];function done(){if(d.dataset.intro!=='playing')return;t.forEach(clearTimeout);d.dataset.intro='done';setTimeout(function(){d.dataset.intro='settled'},2400)}if(!v){done();return}function arm(){t.push(setTimeout(done,Math.max(0,${LIFT_AT}-v.currentTime)*1000))}if(!v.paused&&v.currentTime>0)arm();else v.addEventListener('playing',arm,{once:true});v.addEventListener('ended',done);v.addEventListener('error',done);t.push(setTimeout(function(){if(v.paused||v.currentTime===0)done()},2500));t.push(setTimeout(done,6000))})()`;
 
 export function Intro() {
   return (

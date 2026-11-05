@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "motion/react";
-
-const EASE = [0.23, 1, 0.32, 1] as const;
+import { useRef, type ComponentPropsWithoutRef, type CSSProperties, type ElementType } from "react";
+import { useRevealOnce } from "./useRevealOnce";
 
 /**
  * Fades and lifts content into place the first time it scrolls into view.
@@ -10,25 +9,28 @@ const EASE = [0.23, 1, 0.32, 1] as const;
  */
 export function Reveal({
   delay = 0,
-  y = 18,
+  y = 32,
   as = "div",
+  className = "",
+  style,
   children,
   ...rest
 }: {
   delay?: number;
   y?: number;
   as?: "div" | "li" | "article" | "section";
-} & HTMLMotionProps<"div">) {
-  const Comp = motion[as] as typeof motion.div;
+} & ComponentPropsWithoutRef<"div">) {
+  const ref = useRef<HTMLElement>(null);
+  useRevealOnce(ref);
+  const Tag = as as ElementType;
   return (
-    <Comp
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      transition={{ duration: 0.7, delay, ease: EASE }}
+    <Tag
+      ref={ref}
+      className={`reveal ${className}`}
+      style={{ "--reveal-y": `${y}px`, "--reveal-delay": `${delay}s`, ...style } as CSSProperties}
       {...rest}
     >
       {children}
-    </Comp>
+    </Tag>
   );
 }

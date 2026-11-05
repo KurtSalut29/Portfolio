@@ -45,3 +45,6 @@ next-env.d.ts
 /gallery-originals/
 # design reference, not part of the site
 /Reference_Design.jpg
+
+# Private resume PDF with the phone number (see scripts/resume_pdf.py)
+/resume-private/

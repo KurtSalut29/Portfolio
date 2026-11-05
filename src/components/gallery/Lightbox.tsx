@@ -12,7 +12,7 @@ const EASE = [0.23, 1, 0.32, 1] as const;
 const noop = () => () => {};
 
 const navBtn =
-  "grid size-11 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-white/80 transition-[transform,color,background-color] duration-150 hover:bg-white/[0.12] hover:text-white active:scale-95";
+  "grid size-11 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-white/80 transition-[transform,scale,translate,color,background-color] duration-150 hover:bg-white/[0.12] hover:text-white active:scale-95";
 
 /**
  * Full-screen photo viewer, portaled to <body> so transformed ancestors can't trap it.
@@ -67,9 +67,9 @@ export function Lightbox({
           aria-label="Photo viewer"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[90] flex flex-col bg-[#05080f]/95 backdrop-blur-sm"
+          exit={{ opacity: 0, transition: { duration: 0.15 } }}
+          transition={{ duration: 0.3, ease: EASE }}
+          className="fixed inset-0 z-[90] flex flex-col bg-[#05080f]/95"
           onClick={(e) => {
             if (e.target === e.currentTarget) onClose();
           }}
@@ -94,8 +94,8 @@ export function Lightbox({
                 key={photo.src}
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.22, ease: EASE }}
+                exit={{ opacity: 0, scale: 0.985, transition: { duration: 0.11 } }}
+                transition={{ duration: 0.3, ease: EASE }}
                 className="relative h-full min-w-0 flex-1"
               >
                 <Image src={photo.src} alt={photo.alt} fill sizes="100vw" quality={90} className="object-contain" />

@@ -78,7 +78,7 @@ export function CertificateGrid() {
               )}
               <span
                 aria-hidden="true"
-                className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-full bg-ink px-3 py-1.5 text-xs font-medium text-bg opacity-0 shadow-[var(--card-shadow-lift)] transition-[opacity,transform] duration-200 ease-[var(--ease-out)] translate-y-1 group-hover:translate-y-0 group-hover:opacity-100 group-has-[:focus-visible]:translate-y-0 group-has-[:focus-visible]:opacity-100"
+                className="absolute right-3 bottom-3 flex items-center gap-1.5 rounded-full bg-ink px-3 py-1.5 text-xs font-medium text-bg opacity-0 shadow-[var(--card-shadow-lift)] transition-[opacity,transform,scale,translate] duration-200 ease-[var(--ease-out)] translate-y-1 group-hover:translate-y-0 group-hover:opacity-100 group-has-[:focus-visible]:translate-y-0 group-has-[:focus-visible]:opacity-100"
               >
                 <MagnifyingGlassPlusIcon size={14} weight="bold" />
                 View

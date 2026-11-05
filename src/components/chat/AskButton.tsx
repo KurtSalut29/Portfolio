@@ -23,7 +23,7 @@ export function AskButton({ compact = false }: { compact?: boolean }) {
         data-sound="open"
         aria-label="Ask about Kurt (AI)"
         aria-keyshortcuts="Alt+K"
-        className="grid size-10 place-items-center rounded-[var(--radius-control)] border border-line bg-surface-2 text-ink-2 transition-colors hover:border-line-strong hover:text-ink"
+        className="grid size-10 place-items-center rounded-[var(--radius-control)] border border-line bg-surface-2 text-ink-2 transition-[color,border-color,background-color,scale] duration-150 active:scale-95 hover:border-line-strong hover:text-ink"
       >
         <Sparkles size={16} strokeWidth={1.75} aria-hidden="true" />
       </button>
@@ -35,7 +35,7 @@ export function AskButton({ compact = false }: { compact?: boolean }) {
       onClick={openAsk}
       data-sound="open"
       aria-keyshortcuts="Alt+K"
-      className="group flex h-10 w-full items-center gap-2.5 rounded-[var(--radius-control)] border border-line bg-surface-2 px-3 text-sm text-ink-2 transition-[color,border-color] duration-200 hover:border-line-strong hover:text-ink"
+      className="group flex h-10 w-full items-center gap-2.5 rounded-[var(--radius-control)] border border-line bg-surface-2 px-3 text-sm text-ink-2 active:scale-[0.98] transition-[scale,color,border-color] duration-200 hover:border-line-strong hover:text-ink"
     >
       <Sparkles size={16} strokeWidth={1.75} aria-hidden="true" className="text-accent" />
       <span className="flex-1 text-left">Ask about Kurt</span>

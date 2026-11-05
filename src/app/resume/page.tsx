@@ -6,6 +6,7 @@ import { getProject } from "@/content/projects";
 import { certificates } from "@/content/certificates";
 import { skillGroups } from "@/content/site";
 import { resume } from "@/content/resume";
+import { SITE_URL } from "@/content/seo";
 import { Container } from "@/components/ui/Section";
 import { SectionLink } from "@/components/nav/SectionLink";
 import { ResumeActions } from "./PrintButton";
@@ -39,7 +40,8 @@ const isReal = (href: string) => {
 export default function ResumePage() {
   const projects = resume.projects.map((r) => ({ ...r, project: getProject(r.slug) })).filter((r) => r.project);
   const links = profile.socials.filter((s) => s.icon !== "email" && isReal(s.href));
-  const certs = certificates.slice(0, resume.certificationsShown);
+  const certs = certificates.filter((c) => resume.certificationIds.includes(c.id));
+  const { duration, start, expectedGraduation } = resume.ojt;
 
   return (
     <ViewTransition
@@ -73,6 +75,11 @@ export default function ResumePage() {
                 <a href={`mailto:${profile.email}`}>{profile.email}</a>
                 <span aria-hidden="true">|</span>
                 <span>{profile.location}</span>
+              </p>
+              <p className="flex flex-wrap justify-center gap-x-2 text-[13px] text-[#3a4252]">
+                <a href={SITE_URL} target="_blank" rel="noreferrer">
+                  {SITE_URL.replace(/^https?:\/\/(www\.)?/, "")}
+                </a>
                 {links.map((s) => (
                   <span key={s.label} className="contents">
                     <span aria-hidden="true">|</span>
@@ -86,34 +93,24 @@ export default function ResumePage() {
 
             <section className="mt-5">
               <H>Professional Summary</H>
-              <p className="mt-1.5">{resume.summary}</p>
+              <p className="mt-1.5">
+                {resume.summary}
+                {duration && start && ` Seeking a ${duration} software development OJT starting ${start}.`}
+              </p>
             </section>
 
             <section className="mt-4">
-              <H>Selected Projects</H>
-              <ul className="mt-1.5 space-y-2.5">
-                {projects.map(({ slug, label, bullets, project: p }) => (
-                  <li key={slug}>
-                    <p className="flex flex-wrap items-baseline justify-between gap-x-4">
-                      <span className="font-bold text-[#0d1626]">
-                        {p!.name} - {p!.short}
-                        {p!.stack.length > 0 && (
-                          <span className="font-normal text-[#4a5262]"> | {p!.stack.join(", ")}</span>
-                        )}
-                      </span>
-                      <span className="font-bold text-[#0d1626]">
-                        {label}
-                        {p!.year && `, ${p!.year}`}
-                      </span>
-                    </p>
-                    <ul className="mt-0.5 list-disc space-y-0.5 pl-5 marker:text-[#4a5262]">
-                      {bullets.map((b) => (
-                        <li key={b}>{b}</li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
+              <H>Education</H>
+              <p className="mt-1.5 flex flex-wrap items-baseline justify-between gap-x-4">
+                <span className="font-bold text-[#0d1626]">
+                  {profile.education.school} - {profile.education.degree}
+                </span>
+                <span className="font-bold text-[#0d1626]">
+                  {expectedGraduation
+                    ? `Expected graduation: ${expectedGraduation}`
+                    : `${profile.education.start} - ${profile.education.end}`}
+                </span>
+              </p>
             </section>
 
             <section className="mt-4">
@@ -128,19 +125,31 @@ export default function ResumePage() {
             </section>
 
             <section className="mt-4">
-              <H>Education</H>
-              <p className="mt-1.5 flex flex-wrap items-baseline justify-between gap-x-4">
-                <span className="font-bold text-[#0d1626]">
-                  {profile.education.school} - {profile.education.degree}
-                </span>
-                <span className="font-bold text-[#0d1626]">
-                  {profile.education.start} - {profile.education.end}
-                </span>
-              </p>
+              <H>Projects</H>
+              <ul className="mt-1.5 space-y-2.5">
+                {projects.map(({ slug, descriptor, label, bullets, project: p }) => (
+                  <li key={slug}>
+                    <p className="text-[#0d1626]">
+                      <span className="font-bold">{p!.name}</span> | {descriptor} | {label}
+                      {p!.year && ` | ${p!.year}${p!.status === "In progress" ? " - Present" : ""}`}
+                    </p>
+                    <p className="text-[#4a5262]">
+                      Tech: {p!.stack.join(", ")}
+                      {p!.links?.live && ` | Live: ${p!.links.live.replace(/^https?:\/\/(www\.)?/, "")}`}
+                      {p!.links?.repo && ` | Code: ${p!.links.repo.replace(/^https?:\/\/(www\.)?/, "")}`}
+                    </p>
+                    <ul className="mt-0.5 list-disc space-y-0.5 pl-5 marker:text-[#4a5262]">
+                      {bullets.map((b) => (
+                        <li key={b}>{b}</li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
             </section>
 
             <section className="mt-4">
-              <H>Certifications</H>
+              <H>Certifications and Awards</H>
               <ul className="mt-1.5 space-y-0.5">
                 {certs.map((c) => (
                   <li key={c.id} className="flex flex-wrap items-baseline justify-between gap-x-4">

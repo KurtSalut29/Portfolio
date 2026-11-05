@@ -97,7 +97,7 @@ export function Sidebar() {
             aria-expanded={!collapsed}
             data-tip={collapsed ? "Expand sidebar" : undefined}
             title={collapsed ? undefined : "Collapse sidebar (Ctrl+\\)"}
-            className="sb-toggle absolute top-1/2 grid size-9 -translate-y-1/2 place-items-center rounded-[10px] text-ink-3 hover:bg-[var(--nav-hover)] hover:text-ink"
+            className="sb-toggle active:scale-95 absolute top-1/2 grid size-9 -translate-y-1/2 place-items-center rounded-[10px] text-ink-3 hover:bg-[var(--nav-hover)] hover:text-ink"
           >
             <PanelLeft size={18} strokeWidth={1.75} aria-hidden="true" />
           </button>

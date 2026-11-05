@@ -174,7 +174,7 @@ export const projects: Project[] = [
     summary:
       "A mobile app that identifies a rock from a photo using a machine learning model I trained on rock images, then shows its type, a confidence score, and saves finds to a personal collection.",
     year: "2024",
-    stack: ["Flutter", "Machine learning"],
+    stack: ["Flutter", "Machine learning", "Google Colab"],
     icon: "gem",
     platform: "mobile",
     screens: { mobile: "/projects/rockalyzer/mobile-home.webp" },
@@ -216,7 +216,7 @@ export const projects: Project[] = [
     summary:
       "A web system I built for a client's hardware store in Biliran: inventory and restocks, point of sale, orders, and a live map of deliveries, with separate dashboards for admins and staff.",
     year: "2026",
-    stack: ["Next.js", "Leaflet"],
+    stack: ["Next.js", "PostgreSQL", "Leaflet"],
     icon: "hammer",
     platform: "web",
     screens: { web: "/projects/rm-hardware/web-staff.webp" },

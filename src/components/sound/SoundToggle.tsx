@@ -22,7 +22,7 @@ export function SoundToggle() {
       aria-pressed={on}
       aria-label={on ? "Turn interface sounds off" : "Turn interface sounds on"}
       title={waiting ? "Sounds on. They start after your first click on the page." : on ? "Sounds on" : "Sounds off"}
-      className="relative grid size-10 shrink-0 place-items-center rounded-[var(--radius-control)] border border-line bg-surface text-ink-2 transition-[transform,color] duration-150 hover:text-ink active:scale-95 aria-pressed:text-accent"
+      className="relative grid size-10 shrink-0 place-items-center rounded-[var(--radius-control)] border border-line bg-surface text-ink-2 transition-[transform,scale,translate,color] duration-150 hover:text-ink active:scale-95 aria-pressed:text-accent"
     >
       {on ? <Volume2 size={17} strokeWidth={1.75} aria-hidden="true" /> : <VolumeX size={17} strokeWidth={1.75} aria-hidden="true" />}
       {waiting && (

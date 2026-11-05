@@ -24,7 +24,7 @@ export function CopyEmail({ email }: { email: string }) {
           window.location.href = `mailto:${email}`;
         }
       }}
-      className="group flex w-full items-center justify-between gap-4 rounded-[var(--radius-control)] border border-line bg-surface-2 px-4 py-3.5 text-left transition-[border-color,transform] duration-200 hover:border-line-strong active:scale-[0.99]"
+      className="group flex w-full items-center justify-between gap-4 rounded-[var(--radius-control)] border border-line bg-surface-2 px-4 py-3.5 text-left transition-[border-color,transform,scale,translate] duration-200 hover:border-line-strong active:scale-[0.99]"
     >
       <span className="min-w-0">
         <span className="block text-xs text-ink-3">Email me directly</span>

@@ -151,7 +151,7 @@ export function ContactForm({ to }: { to: string }) {
                   return (
                     <label
                       key={t}
-                      className={`relative flex h-9 cursor-pointer items-center rounded-full border px-3.5 text-[13.5px] transition-[color,background-color,border-color,transform] duration-200 select-none active:scale-[0.97] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
+                      className={`relative flex h-9 cursor-pointer items-center rounded-full border px-3.5 text-[13.5px] transition-[color,background-color,border-color,transform,scale,translate] duration-200 select-none active:scale-[0.97] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-accent ${
                         checked
                           ? "border-accent bg-accent text-accent-ink"
                           : "border-line-strong bg-surface text-ink-2 hover:border-ink-3 hover:text-ink"

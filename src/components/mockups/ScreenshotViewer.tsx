@@ -31,6 +31,8 @@ export function ScreenshotViewer({ project }: { project: Project }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [kind, setKind] = useState<Kind>(kinds[0] ?? "web");
   const [open, setOpen] = useState(false);
+  // Stays true after closing, so the screenshot is still there while the dialog fades out.
+  const [opened, setOpened] = useState(false);
   const lenis = useLenis();
 
   useEffect(() => {
@@ -55,11 +57,12 @@ export function ScreenshotViewer({ project }: { project: Project }) {
           setKind(kinds[0]);
           dialog.current?.showModal();
           setOpen(true);
+          setOpened(true);
         }}
-        className="absolute top-3 right-3 z-10 inline-flex h-9 items-center gap-1.5 rounded-full border border-line bg-surface/85 px-3 text-xs font-medium text-ink-2 shadow-[var(--card-shadow)] backdrop-blur transition-[color,border-color,transform] duration-200 hover:border-line-strong hover:text-ink active:scale-[0.97]"
+        className="inline-flex items-center gap-1.5 text-sm text-ink-2 transition-colors duration-200 hover:text-ink"
       >
-        <Expand size={13} strokeWidth={2} aria-hidden="true" />
-        View full size
+        <Expand size={14} strokeWidth={1.75} aria-hidden="true" />
+        <span className="link-underline">View full size</span>
       </button>
 
       <dialog
@@ -67,12 +70,12 @@ export function ScreenshotViewer({ project }: { project: Project }) {
         onClose={() => setOpen(false)}
         onClick={(e) => e.target === e.currentTarget && dialog.current?.close()}
         aria-label={`${project.name} screenshots`}
-        className="m-auto h-[min(92dvh,1000px)] max-h-none w-[min(94vw,1400px)] max-w-none overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface p-0 text-ink shadow-[var(--card-shadow-lift)] backdrop:bg-[#05080f]/80 backdrop:backdrop-blur-sm"
+        className="shot-dialog m-auto h-[min(92dvh,1000px)] max-h-none w-[min(94vw,1400px)] max-w-none overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface p-0 text-ink shadow-[var(--card-shadow-lift)]"
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between gap-4 border-b border-line px-4 py-3 sm:px-5">
             <p className="font-medium">
-              {project.name} <span className="text-ink-3">— {project.short}</span>
+              {project.name} <span className="ml-1 text-ink-3">{project.short}</span>
             </p>
             <div className="flex items-center gap-2">
               {kinds.length > 1 && (
@@ -100,7 +103,7 @@ export function ScreenshotViewer({ project }: { project: Project }) {
                 type="button"
                 onClick={() => dialog.current?.close()}
                 aria-label="Close"
-                className="grid size-9 place-items-center rounded-full border border-line text-ink-2 hover:text-ink"
+                className="grid size-9 place-items-center rounded-full border border-line text-ink-2 transition-[transform,scale,translate,color] duration-150 ease-[var(--ease-out)] hover:text-ink active:scale-95"
               >
                 <X size={16} strokeWidth={2} />
               </button>
@@ -108,7 +111,7 @@ export function ScreenshotViewer({ project }: { project: Project }) {
           </div>
           <div className="relative min-h-0 flex-1 bg-surface-2">
             <div className="absolute inset-3 sm:inset-5">
-              {open && <ThemedShot shot={shot} alt={`${project.name} ${kind === "web" ? "web dashboard" : "mobile app"}, full size`} />}
+              {opened && <ThemedShot shot={shot} alt={`${project.name} ${kind === "web" ? "web dashboard" : "mobile app"}, full size`} />}
             </div>
           </div>
         </div>

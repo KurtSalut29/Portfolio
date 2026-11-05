@@ -113,7 +113,7 @@ export function GuestbookForm() {
                   size={26}
                   strokeWidth={1.6}
                   aria-hidden="true"
-                  className={`rounded-[4px] transition-[transform,color,fill] duration-150 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent hover:scale-110 ${
+                  className={`rounded-[4px] transition-[transform,scale,translate,color,fill] duration-150 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent hover:scale-110 ${
                     n <= shown ? "fill-[var(--star)] text-[var(--star)]" : "text-line-strong"
                   }`}
                 />

@@ -19,7 +19,14 @@ const bricolage = Bricolage_Grotesque({
   weight: ["500", "600", "700"],
 });
 // Only the "Ask" overlay uses it, so it loads when that opens instead of with every page.
-const geistPixel = Geist_Pixel({ variable: "--font-geist-pixel", subsets: ["latin"], weight: "400", preload: false });
+// Next has no size data for this font, so it can't build an automatic fallback: name one instead.
+const geistPixel = Geist_Pixel({
+  variable: "--font-geist-pixel",
+  subsets: ["latin"],
+  weight: "400",
+  preload: false,
+  fallback: ["ui-monospace", "monospace"],
+});
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
   subsets: ["latin"],

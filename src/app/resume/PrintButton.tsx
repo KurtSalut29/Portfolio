@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CheckIcon, DownloadSimpleIcon, LinkSimpleIcon } from "@phosphor-icons/react/dist/ssr";
 
-/** Resume actions: copy a shareable link, or print / save as PDF. */
+/** Resume actions: copy a shareable link, or download the PDF made by scripts/resume_pdf.py. */
 export function ResumeActions() {
   const [copied, setCopied] = useState(false);
   useEffect(() => {
@@ -42,10 +42,10 @@ export function ResumeActions() {
         </span>
         <span aria-live="polite">{copied ? "Copied" : "Copy link"}</span>
       </button>
-      <button type="button" onClick={() => window.print()} className="btn btn-primary h-10 px-4 text-sm">
+      <a href="/Kurt-Michael-Salut-Resume.pdf" download className="btn btn-primary h-10 px-4 text-sm">
         <DownloadSimpleIcon size={16} aria-hidden="true" />
-        Save as PDF
-      </button>
+        Download PDF
+      </a>
     </div>
   );
 }

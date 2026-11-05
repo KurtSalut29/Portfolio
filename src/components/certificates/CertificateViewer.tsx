@@ -16,7 +16,7 @@ export type Slide = { cert: Certificate; page: number };
 const noop = () => () => {};
 
 const navBtn =
-  "grid size-11 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-white/80 transition-[transform,color,background-color] duration-150 hover:bg-white/[0.12] hover:text-white active:scale-95";
+  "grid size-11 shrink-0 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-white/80 transition-[transform,scale,translate,color,background-color] duration-150 hover:bg-white/[0.12] hover:text-white active:scale-95";
 
 /**
  * Full-screen certificate viewer. Portaled to <body> so transformed ancestors
@@ -96,7 +96,7 @@ export function CertificateViewer({
           className="fixed inset-0 z-[70] flex flex-col bg-[#05080f]/90 text-white backdrop-blur-md"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 0.25, ease: EASE } }}
-          exit={{ opacity: 0, transition: { duration: 0.2, ease: EASE } }}
+          exit={{ opacity: 0, transition: { duration: 0.15, ease: EASE } }}
         >
           {/* Top bar */}
           <div className="flex items-center justify-between gap-4 px-4 pt-4 sm:px-6 sm:pt-5">

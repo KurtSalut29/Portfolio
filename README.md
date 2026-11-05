@@ -58,7 +58,7 @@ Signature pieces, all built around the "Summit" climb idea:
 - Services: the one deliberate night section, with the work process drawn as a climbing route.
 - Journey: on wide screens the section pins while a trail draws from base camp to the summit.
 - Case studies: cover morphs in from the carousel, sticky table of contents with reading progress.
-- Resume: two-column, A4-ready (Save as PDF prints a light version in either theme).
+- Resume: one A4 page, single column. After changing it, run `python scripts/resume_pdf.py` with the dev server on to remake the PDFs.
 
 - Palette "Summit": cool mist neutrals with one deep navy accent. Orange is used only for the availability signal.
 - Type: Bricolage Grotesque (headings), Geist (body), Geist Mono (labels), Caveat (signature).

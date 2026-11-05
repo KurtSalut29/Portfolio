@@ -323,11 +323,12 @@ body {
     background-size: 0% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
-    transition: background-size 300ms var(--ease-out);
+    transition: background-size 220ms var(--ease-out);
   }
   @media (hover: hover) and (pointer: fine) {
     .link-underline:hover {
       background-size: 100% 1px;
+      transition-duration: 340ms;
     }
   }
 }
@@ -338,8 +339,8 @@ body {
 @keyframes rise-in {
   from {
     opacity: 0;
-    transform: translateY(14px);
-    filter: blur(4px);
+    transform: translateY(24px);
+    filter: blur(6px);
   }
   to {
     opacity: 1;
@@ -347,9 +348,19 @@ body {
     filter: blur(0);
   }
 }
+@keyframes rise-solid {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .enter {
-  animation: rise-in 700ms var(--ease-out) both;
-  animation-delay: calc(var(--i, 0) * 70ms + 80ms);
+  animation: rise-in 850ms var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 85ms + 60ms);
 }
 
 @keyframes pulse-ring {
@@ -477,9 +488,9 @@ body {
 /* Gallery photo stack: cards glide into their new place in the fan */
 .photo-card {
   transition:
-    transform 750ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 400ms ease,
-    box-shadow 750ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform 640ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 320ms ease,
+    box-shadow 320ms ease;
 }
 @media (prefers-reduced-motion: reduce) {
   .photo-card {
@@ -873,7 +884,8 @@ html[data-sidebar="collapsed"] .sb-toggle:focus-visible {
   }
 }
 /* Keyboard users get the same pause while a card inside has focus. */
-.marquee:focus-within .marquee-track {
+.marquee:focus-within .marquee-track,
+.marquee[data-paused] .marquee-track {
   animation-play-state: paused;
 }
 .marquee {
@@ -953,6 +965,18 @@ html[data-sidebar="collapsed"] .sb-toggle:focus-visible {
 /* The curtain lifts once the monogram is drawn (Intro.tsx sets data-intro="done"). */
 html[data-intro="done"] .intro {
   animation: intro-lift 600ms var(--ease-in-out) both;
+}
+html[data-intro="settled"] .intro {
+  display: none;
+}
+html[data-intro="done"] .enter {
+  animation-delay: calc(var(--i, 0) * 85ms + 400ms);
+}
+html[data-intro="done"] .reveal {
+  transition-delay: calc(var(--reveal-delay, 0s) + 400ms);
+}
+html[data-intro="done"] .reveal-word {
+  transition-delay: calc(var(--w, 0) * 70ms + 400ms);
 }
 /* While it plays, the page waits underneath: no scrolling, and entrance animations hold their first frame. */
 html[data-intro="playing"] {
@@ -1191,28 +1215,28 @@ html[data-intro="skip"] .intro {
   }
 }
 ::view-transition-old(.nav-forward) {
-  --slide-offset: -48px;
+  --slide-offset: -40px;
   animation:
-    150ms ease-in both vt-fade reverse,
-    350ms var(--ease-in-out) both vt-slide reverse;
+    170ms ease-out both vt-fade reverse,
+    360ms var(--ease-out) both vt-slide reverse;
 }
 ::view-transition-new(.nav-forward) {
-  --slide-offset: 48px;
+  --slide-offset: 64px;
   animation:
-    220ms ease-out 120ms both vt-fade,
-    350ms var(--ease-in-out) both vt-slide;
+    340ms ease-out 90ms both vt-fade,
+    600ms var(--ease-out) 50ms both vt-slide;
 }
 ::view-transition-old(.nav-back) {
-  --slide-offset: 48px;
+  --slide-offset: 40px;
   animation:
-    150ms ease-in both vt-fade reverse,
-    350ms var(--ease-in-out) both vt-slide reverse;
+    170ms ease-out both vt-fade reverse,
+    360ms var(--ease-out) both vt-slide reverse;
 }
 ::view-transition-new(.nav-back) {
-  --slide-offset: -48px;
+  --slide-offset: -64px;
   animation:
-    220ms ease-out 120ms both vt-fade,
-    350ms var(--ease-in-out) both vt-slide;
+    340ms ease-out 90ms both vt-fade,
+    600ms var(--ease-out) 50ms both vt-slide;
 }
 
 /* Theme switch: no crossfade; themeDissolve.ts steps a dither mask over the new snapshot instead. */
@@ -1223,10 +1247,148 @@ html[data-intro="skip"] .intro {
 }
 
 /* ------------------------------------------------------------------
+   Scroll reveals (useRevealOnce sets data-shown). CSS transitions run off the
+   main thread, so they stay smooth while images load and the page hydrates.
+------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 32px));
+  transition:
+    opacity 700ms ease-out var(--reveal-delay, 0s),
+    transform 950ms var(--ease-out) var(--reveal-delay, 0s);
+}
+.reveal[data-shown] {
+  opacity: 1;
+  transform: none;
+}
+.reveal-word {
+  opacity: 0;
+  transform: translateY(70%);
+  transition:
+    opacity 520ms ease-out,
+    transform 900ms var(--ease-out);
+  transition-delay: calc(var(--w, 0) * 70ms);
+}
+.reveal-words[data-shown] .reveal-word {
+  opacity: 1;
+  transform: none;
+}
+/* Nothing plays behind the intro curtain; it all starts as the curtain lifts. */
+html[data-intro="playing"] .reveal[data-shown] {
+  opacity: 0;
+  transform: translateY(var(--reveal-y, 32px));
+}
+html[data-intro="playing"] .reveal-words[data-shown] .reveal-word {
+  opacity: 0;
+  transform: translateY(70%);
+}
+.enter-solid,
+.resume-sheet.enter {
+  animation-name: rise-solid;
+}
+@media print {
+  .reveal,
+  .reveal-word {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* "Show all projects": the row folds open, then the cards rise in one after another. Closing is quicker. */
+.more-projects {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 340ms var(--ease-drawer),
+    opacity 200ms ease-out;
+}
+.more-projects[data-open="true"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition:
+    grid-template-rows 620ms var(--ease-drawer),
+    opacity 320ms ease-out;
+}
+.more-card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 160ms ease-out,
+    transform 160ms ease-out;
+}
+.more-projects[data-open="true"] .more-card {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 520ms ease-out,
+    transform 780ms var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 80ms + 90ms);
+  @starting-style {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+}
+
+/* "View full size": a native dialog that eases open and leaves faster than it arrived. */
+.shot-dialog {
+  opacity: 0;
+  transform: translateY(10px) scale(0.975);
+  transition:
+    opacity 180ms ease-out,
+    transform 180ms var(--ease-out),
+    overlay 180ms allow-discrete,
+    display 180ms allow-discrete;
+}
+.shot-dialog[open] {
+  opacity: 1;
+  transform: none;
+  transition-duration: 380ms;
+  @starting-style {
+    opacity: 0;
+    transform: translateY(24px) scale(0.95);
+  }
+}
+.shot-dialog::backdrop {
+  background-color: rgb(5 8 15 / 0);
+  transition:
+    background-color 180ms ease-out,
+    overlay 180ms allow-discrete,
+    display 180ms allow-discrete;
+}
+.shot-dialog[open]::backdrop {
+  background-color: rgb(5 8 15 / 0.8);
+  transition-duration: 380ms;
+  @starting-style {
+    background-color: rgb(5 8 15 / 0);
+  }
+}
+
+/* ------------------------------------------------------------------
    Reduced motion: keep opacity, drop movement
 ------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .enter {
+  html[data-intro] .reveal,
+  html[data-intro] .reveal-word,
+  .reveal,
+  .reveal[data-shown],
+  .reveal-word,
+  .reveal-words[data-shown] .reveal-word,
+  .more-card,
+  .more-projects[data-open="true"] .more-card,
+  .shot-dialog,
+  .shot-dialog[open] {
+    transform: none;
+    transition-delay: 0s;
+  }
+  .more-projects,
+  .more-projects[data-open="true"] {
+    transition: opacity 200ms ease-out;
+  }
+  .enter,
+  html[data-intro] .enter,
+  .enter-solid,
+  .resume-sheet.enter {
     animation: vt-fade 400ms ease both;
     animation-delay: 0ms;
   }

@@ -12,7 +12,7 @@ export function NavActions({ onNavigate }: { onNavigate?: () => void }) {
         href={profile.resumeHref}
         transitionTypes={["nav-forward"]}
         onClick={onNavigate}
-        className="group flex h-10 flex-1 items-center gap-2.5 rounded-[var(--radius-control)] border border-line bg-surface-2 px-3 text-sm text-ink-2 transition-[color,border-color,transform] duration-200 hover:border-line-strong hover:text-ink active:scale-[0.98]"
+        className="group flex h-10 flex-1 items-center gap-2.5 rounded-[var(--radius-control)] border border-line bg-surface-2 px-3 text-sm text-ink-2 transition-[color,border-color,transform,scale,translate] duration-200 hover:border-line-strong hover:text-ink active:scale-[0.98]"
       >
         <FileTextIcon size={16} aria-hidden="true" />
         <span className="flex-1">Resume</span>

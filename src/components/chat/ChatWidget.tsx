@@ -176,10 +176,10 @@ export function ChatWidget() {
             data-sound="open"
             aria-label="Ask about Kurt (AI)"
             aria-haspopup="dialog"
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2 }}
+            exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.12 } }}
+            transition={{ duration: 0.2, ease: EASE }}
             className="chat-launcher fixed right-4 z-20 grid size-12 place-items-center rounded-full bg-accent text-accent-ink shadow-[0_10px_30px_-10px_color-mix(in_oklab,var(--accent)_70%,transparent)] transition-transform active:scale-95 lg:hidden"
           >
             <Sparkles size={20} strokeWidth={1.9} aria-hidden="true" />
@@ -196,8 +196,8 @@ export function ChatWidget() {
             aria-label="Ask about Kurt"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
+            exit={{ opacity: 0, transition: { duration: 0.16 } }}
+            transition={{ duration: 0.32, ease: EASE }}
             className="ask fixed inset-0 z-[90]"
           >
             {/* The page, blurred and faded behind the prompt */}
@@ -221,9 +221,9 @@ export function ChatWidget() {
               onClick={(e) => e.target === e.currentTarget && close()}
             >
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.55, ease: EASE, delay: 0.1 }}
+                transition={{ duration: 0.55, ease: EASE, delay: 0.07 }}
                 className="flex min-h-full w-full max-w-[860px] flex-col items-start justify-center gap-6 py-24 pr-6 pl-[clamp(1.5rem,9vw,8rem)]"
                 onClick={(e) => (e.target === e.currentTarget ? close() : inputRef.current?.focus({ preventScroll: true }))}
               >

@@ -24,7 +24,7 @@ export const profile = {
   email: "kurtsalut18@gmail.com",
   availability: {
     open: true,
-    label: "Available for freelance and full-time work",
+    label: "Open to internships and freelance work",
     short: "Open to work",
   },
   focus: ["Software development", "System design", "Problem solving"],
@@ -41,7 +41,7 @@ export const profile = {
     basedIn: "Biliran, Philippines",
     builds: "Web apps, mobile apps, and the APIs behind them",
     learning: "System design and cloud deployment",
-    openTo: "Freelance projects and full-time roles",
+    openTo: "Internships and freelance projects",
   },
   education: {
     school: "Biliran Province State University",
@@ -61,7 +61,7 @@ export const profile = {
   sidebarTagline: ["Better systems.", "A safer community."],
   socials: [
     { label: "GitHub", href: "https://github.com/KurtSalut29", icon: "github" },
-    { label: "LinkedIn", href: "https://linkedin.com/", icon: "linkedin" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/kurt-salut-787344444", icon: "linkedin" },
     { label: "X", href: "https://x.com/", icon: "x" },
     { label: "Email", href: "mailto:kurtsalut18@gmail.com", icon: "email" },
   ],

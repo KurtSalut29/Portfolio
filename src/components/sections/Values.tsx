@@ -73,7 +73,7 @@ export function Values() {
 
           {values.map((v, i) => (
             <Reveal as="li" key={v.title} delay={0.05 * (i + 1)}>
-              <Spotlight className="group card flex h-full flex-col p-6 transition-[border-color,transform] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-line-strong">
+              <Spotlight className="group card flex h-full flex-col p-6 transition-[border-color,transform,scale,translate] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:border-line-strong">
                 <span className="grid size-11 place-items-center rounded-[var(--radius-control)] bg-accent-soft text-accent transition-transform duration-300 ease-[var(--ease-out)] group-hover:-rotate-6 group-hover:scale-110">
                   <Icon name={v.icon} size={22} weight="duotone" />
                 </span>

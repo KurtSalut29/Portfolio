@@ -108,7 +108,7 @@ export function Hearts({ className = "" }: { className?: string }) {
         data-sound="heart"
         aria-pressed={sent}
         aria-label="Send a heart"
-        className="heart-btn relative inline-flex h-10 items-center gap-2 rounded-full border border-line bg-surface pr-4 pl-3.5 text-sm font-medium text-ink shadow-[var(--card-shadow)] transition-[transform,border-color] duration-150 hover:border-line-strong active:scale-[0.96]"
+        className="heart-btn relative inline-flex h-10 items-center gap-2 rounded-full border border-line bg-surface pr-4 pl-3.5 text-sm font-medium text-ink shadow-[var(--card-shadow)] transition-[transform,scale,translate,border-color] duration-150 hover:border-line-strong active:scale-[0.96]"
       >
         <Heart
           key={pulse}

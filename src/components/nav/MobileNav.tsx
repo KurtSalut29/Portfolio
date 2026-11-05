@@ -71,7 +71,7 @@ export function MobileNav() {
 
   return (
     <div className="no-print lg:hidden">
-      <header className="fixed inset-x-0 top-0 z-40 flex h-16 items-center justify-between border-b border-line bg-bg/80 px-4 backdrop-blur-xl">
+      <header className="fixed inset-x-0 top-0 z-40 flex h-16 items-center justify-between border-b border-line bg-bg/85 px-4 backdrop-blur-md">
         <Link href="/" className="flex items-center gap-2.5" aria-label={`${profile.fullName}, home`}>
           <span className="relative h-[22px] w-[33px] shrink-0">
             <Image src="/brand/km-mark-light.png" alt="" fill unoptimized className="object-contain dark:hidden" />
@@ -89,7 +89,7 @@ export function MobileNav() {
       {/* Bottom tab bar */}
       <nav
         aria-label="Main"
-        className="fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-40 flex h-16 items-stretch rounded-[22px] border border-line bg-surface/90 px-1.5 shadow-[var(--card-shadow-lift)] backdrop-blur-xl"
+        className="fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-40 flex h-16 items-stretch rounded-[22px] border border-line bg-surface/90 px-1.5 shadow-[var(--card-shadow-lift)] backdrop-blur-md"
       >
         {primary.map((item) => {
           const Icon = ICONS[item.id];
@@ -129,10 +129,10 @@ export function MobileNav() {
           <>
             <motion.div
               key="scrim"
-              className="fixed inset-0 z-30 bg-ink/25 backdrop-blur-[2px]"
+              className="fixed inset-0 z-30 bg-ink/30"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              animate={{ opacity: 1, transition: { duration: 0.32 } }}
+              exit={{ opacity: 0, transition: { duration: 0.16 } }}
               onClick={close}
             />
             <motion.div
@@ -144,7 +144,7 @@ export function MobileNav() {
               data-lenis-prevent
               className="fixed inset-x-3 bottom-[calc(max(12px,env(safe-area-inset-bottom))+72px)] z-40 max-h-[calc(100dvh-170px)] overflow-y-auto overscroll-contain rounded-[22px] border border-line bg-surface p-3 shadow-[var(--card-shadow-lift)]"
               initial={{ opacity: 0, y: 24, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.35, ease: SHEET_EASE } }}
+              animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.42, ease: SHEET_EASE } }}
               exit={{ opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.2, ease: SHEET_EASE } }}
               style={{ transformOrigin: "bottom right" }}
             >

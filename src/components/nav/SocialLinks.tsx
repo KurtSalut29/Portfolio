@@ -14,7 +14,7 @@ export function SocialLinks({ className = "", labels = false }: { className?: st
             aria-label={labels ? undefined : s.label}
             className={`${
               labels ? "flex h-8 items-center gap-1 px-1 text-[12px]" : "grid size-9 place-items-center"
-            } rounded-[var(--radius-control)] text-ink-3 transition-[color,background-color,transform] duration-200 hover:bg-surface hover:text-ink active:scale-95`}
+            } rounded-[var(--radius-control)] text-ink-3 transition-[color,background-color,transform,scale,translate] duration-200 hover:bg-surface hover:text-ink active:scale-95`}
           >
             <Icon name={s.icon} size={labels ? 14 : 18} />
             {labels && s.label}

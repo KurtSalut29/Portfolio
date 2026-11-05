@@ -136,7 +136,6 @@ export const skillGroups = [
       { name: "GitHub", slug: "github" },
       { name: "Figma", slug: "figma" },
       { name: "Docker", slug: "docker" },
-      { name: "Linux", slug: "linux" },
     ],
   },
 ] as const;
